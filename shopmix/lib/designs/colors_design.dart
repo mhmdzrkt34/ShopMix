@@ -13,7 +13,7 @@ class ColorsDesign {
     "input": Color(0xFFFFFF),
     "label": Color(0x9B9B9B),
     "background": Color(0xF9F9F9),
-    "botton": Color(0xDB3022)
+    "botton": Color(0xDB3022),
   };
 
   final Map dark = {
