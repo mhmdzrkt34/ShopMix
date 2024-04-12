@@ -3,8 +3,14 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shopmix/designs/colors_design.dart';
 
 void main() async{
+
+  GetIt.instance.registerSingleton<ColorsDesign>(ColorsDesign());
+
+  
    WidgetsFlutterBinding.ensureInitialized();
    if(Platform.isAndroid){ await Firebase.initializeApp(
     options: const FirebaseOptions(
