@@ -4,11 +4,21 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shopmix/controllers/formsControllers/login_form_controller.dart';
+import 'package:shopmix/controllers/formsControllers/register_form_controller.dart';
 import 'package:shopmix/designs/colors_design.dart';
+import 'package:shopmix/modelViews/login_model_view.dart';
+import 'package:shopmix/modelViews/register_model_view.dart';
+import 'package:shopmix/views/login_view.dart';
+import 'package:shopmix/views/register_view.dart';
 
 void main() async{
 
   GetIt.instance.registerSingleton<ColorsDesign>(ColorsDesign());
+  GetIt.instance.registerSingleton<LoginFormController>(LoginFormController());
+  GetIt.instance.registerSingleton<RegisterFormController>(RegisterFormController());
+  GetIt.instance.registerSingleton<RegisterModeView>(RegisterModeView());
+  GetIt.instance.registerSingleton<LoginModelView>(LoginModelView());
 
   
    WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +46,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "shopmix",
-      home: Scaffold(backgroundColor: Colors.red,),
+      initialRoute: "/",
+      routes: {
+        "/login":(context)=>LoginView(),
+        "/":(context)=>RegisterView()
+      },
 
     );
 

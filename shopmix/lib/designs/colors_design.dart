@@ -9,17 +9,22 @@ class ColorsDesign {
     isDark = !isDark;
   }
 
-  final Map light = {
-    "input": Color(0xFFFFFF),
-    "label": Color(0x9B9B9B),
-    "background": Color(0xF9F9F9),
-    "botton": Color(0xDB3022),
-  };
+  final List<Color> dark=[Color.fromARGB(255, 8, 8, 8),Color.fromARGB(255, 255, 255, 255),Color.fromARGB(255, 255, 0, 0)];
+  final List<Color> light=[Color.fromARGB(255, 255, 255, 255),Color.fromARGB(255, 0, 0, 0),Color.fromARGB(255, 255, 0, 0)];
 
-  final Map dark = {
-    "input": Color(0xFFFFFF),
-    "label": Color(0xC0C0C0),
-    "background": Color(0x1A1A1A),
-    "botton": Color(0xDB3022),
-  };
+
+  Color getdarkColor(Color color){
+    Color darkcolorforlightcolor= dark[light.indexOf(color)];
+    return darkcolorforlightcolor;
+
+  }
+    Color getlightColor(Color color){
+    Color lightcolorfordarkcolor= light[dark.indexOf(color)]
+    ;
+    return lightcolorfordarkcolor;
+
+  }
+
+
+
 }
