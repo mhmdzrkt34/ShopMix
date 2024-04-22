@@ -4,21 +4,77 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shopmix/Seeding/seeding.dart';
 import 'package:shopmix/controllers/formsControllers/login_form_controller.dart';
 import 'package:shopmix/controllers/formsControllers/register_form_controller.dart';
+import 'package:shopmix/controllers/homeBodyControllers/showing_component_controller.dart';
 import 'package:shopmix/designs/colors_design.dart';
+import 'package:shopmix/modelViews/all_new_product_model_view.dart';
+import 'package:shopmix/modelViews/all_product_model_view.dart';
+import 'package:shopmix/modelViews/all_sales_model_view.dart';
+import 'package:shopmix/modelViews/categories_model_view.dart';
+import 'package:shopmix/modelViews/favourites_model_view.dart';
+import 'package:shopmix/modelViews/home_body_model_view.dart';
+import 'package:shopmix/modelViews/home_model_view.dart';
 import 'package:shopmix/modelViews/login_model_view.dart';
+import 'package:shopmix/modelViews/order_method_model_view.dart';
+import 'package:shopmix/modelViews/order_model_view.dart';
+import 'package:shopmix/modelViews/product_details_model_view.dart';
+import 'package:shopmix/modelViews/profile_model_view.dart';
 import 'package:shopmix/modelViews/register_model_view.dart';
+import 'package:shopmix/modelViews/setting_model_view.dart';
+import 'package:shopmix/modelViews/shared_provider.dart';
+import 'package:shopmix/modelViews/shop_model_view.dart';
+import 'package:shopmix/modelViews/cart_model_view.dart';
+import 'package:shopmix/models/order_model.dart';
+import 'package:shopmix/providers/dark_mode_provider.dart';
+import 'package:shopmix/views/all_new_products_view.dart';
+import 'package:shopmix/views/all_product_view.dart';
+import 'package:shopmix/views/all_sales_view.dart';
+import 'package:shopmix/views/home_view.dart';
 import 'package:shopmix/views/login_view.dart';
+import 'package:shopmix/views/order_method_view.dart';
+import 'package:shopmix/views/order_view.dart';
+import 'package:shopmix/views/product_details_view.dart';
 import 'package:shopmix/views/register_view.dart';
+import 'package:shopmix/views/setting_view.dart';
 
 void main() async{
+
+  GetIt.instance.registerSingleton<Seeding>(Seeding());
+
+  //seeding only in development
 
   GetIt.instance.registerSingleton<ColorsDesign>(ColorsDesign());
   GetIt.instance.registerSingleton<LoginFormController>(LoginFormController());
   GetIt.instance.registerSingleton<RegisterFormController>(RegisterFormController());
   GetIt.instance.registerSingleton<RegisterModeView>(RegisterModeView());
   GetIt.instance.registerSingleton<LoginModelView>(LoginModelView());
+  GetIt.instance.registerSingleton<HomeModelView>(HomeModelView());
+  GetIt.instance.registerSingleton<darkModeProvider>(darkModeProvider());
+
+  GetIt.instance.registerSingleton<HomeBodyModelView>(HomeBodyModelView());
+  GetIt.instance.registerSingleton<ShopModelView>(ShopModelView());
+  GetIt.instance.registerSingleton<CartModelView>(CartModelView());
+
+  GetIt.instance.registerSingleton<FavouritesModelView>(FavouritesModelView());
+  GetIt.instance.registerSingleton<ProfileModelView>(ProfileModelView());
+
+  GetIt.instance.registerSingleton<SettingModelView>(SettingModelView());
+  GetIt.instance.registerSingleton<CategoriesModelView>(CategoriesModelView());
+  GetIt.instance.registerSingleton<OrderModelView>(OrderModelView());
+
+
+  GetIt.instance.registerSingleton<ShowingComponentController>(ShowingComponentController());
+  GetIt.instance.registerSingleton<AllProductModelView>(AllProductModelView());
+
+  GetIt.instance.registerSingleton<AllSalesModelView>(AllSalesModelView());
+  GetIt.instance.registerSingleton<AllNewProductModelView>(AllNewProductModelView());
+
+  GetIt.instance.registerSingleton<sharedProvider>(sharedProvider());
+  GetIt.instance.registerSingleton<ProductDetailsModelView>(ProductDetailsModelView());
+
+  GetIt.instance.registerSingleton<OrderMethodModelView>(OrderMethodModelView());
 
   
    WidgetsFlutterBinding.ensureInitialized();
@@ -45,11 +101,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       title: "shopmix",
-      initialRoute: "/",
+      initialRoute: "/home",
       routes: {
         "/login":(context)=>LoginView(),
-        "/":(context)=>RegisterView()
+        "/":(context)=>RegisterView(),
+        "/home":(context)=>HomeView(),
+        "/setting":(context)=>SettingView(),
+        "/orders":(context)=>OrderView(),
+        "/AllProducts":(context)=>AllProductView(),
+        "/AllSalesView":(context)=>AllSalesView(),
+        "/AllNewView":(context)=>AllNewProductsView(),
+        "/productDetail":(context)=>productDetailsView(),
+        "/orderMethodView":(context)=>OrderMethodView()
       },
 
     );
