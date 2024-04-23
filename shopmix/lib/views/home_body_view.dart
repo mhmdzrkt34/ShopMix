@@ -52,35 +52,23 @@ class HomeBodyView extends StatelessWidget {
 
       backgroundColor:value?GetIt.instance.get<ColorsDesign>().dark[0]:GetIt.instance.get<ColorsDesign>().light[0],
       body:SingleChildScrollView(
-        child: Column(children: [SaleZone(context),
-
-
-          SizedBox( height: 320,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: GetIt.instance.get<Seeding>().products.length, itemBuilder: (BuildContext context,int index){
-
-              return ProductComponent(product: GetIt.instance.get<Seeding>().products[index],deviceWidth: _deviceWidth,deviceHeight: _deviceHeight,context: context,);
-            
-
-
-          }),),
-            NewZone(context),
-          SizedBox( height: 320,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: GetIt.instance.get<Seeding>().products.length, itemBuilder: (BuildContext context,int index){
-
-              return ProductComponent(product: GetIt.instance.get<Seeding>().products[index],deviceWidth: _deviceWidth,deviceHeight: _deviceHeight,context: context,);
-            
-
-
-          }),),
-          ProductZone(context),
-          AllProductSelector(context)
+        child: Container(
+          
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [SaleZone(context),
           
           
-        ],),
+          AllSaleProductSelector(context),
+              NewZone(context),
+              AllNewProductSelector(context),
+          
+            ProductZone(context),
+            AllProductSelector(context)
+            
+            
+          ],),
+        ),
 
       ),
     );
@@ -115,10 +103,10 @@ Widget ProductZone(BuildContext context){
 
 
 
-Selector<HomeBodyModelView,List<ProductModel>?> AllProductSelector(BuildContext context){
+Selector<HomeBodyModelView,List<ProductModel>> AllProductSelector(BuildContext context){
 
 
-  return Selector<HomeBodyModelView,List<ProductModel>?>(selector: (context,provider)=>provider.products,
+  return Selector<HomeBodyModelView,List<ProductModel>>(selector: (context,provider)=>provider.someproducts,
   
   shouldRebuild: (previous,next)=>!identical(previous, next),
   builder: (context, value, child){
@@ -134,7 +122,51 @@ Selector<HomeBodyModelView,List<ProductModel>?> AllProductSelector(BuildContext 
 
 Widget AllProducts(value,BuildContext context){
 
-if(value==null){
+if(value.length==0){
+
+  return Center(child: CircularProgressIndicator(),);
+}
+
+return 
+
+         
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+          child: Row(  
+            
+            children:value.map<Widget>((e){
+
+            return ProductComponent(product: e,deviceWidth: _deviceWidth,deviceHeight: _deviceHeight,context: context,);
+
+          }).toList(),
+          ),
+          );
+           
+
+
+          }
+
+
+          Selector<HomeBodyModelView,List<ProductModel>> AllNewProductSelector(BuildContext context){
+
+
+  return Selector<HomeBodyModelView,List<ProductModel>>(selector: (context,provider)=>provider.somenewProducts,
+  
+  shouldRebuild: (previous,next)=>!identical(previous, next),
+  builder: (context, value, child){
+
+    return AllNewProducts(value,context);
+
+
+
+  },
+  );
+}
+
+
+Widget AllNewProducts(value,BuildContext context){
+
+if(value.length==0){
 
   return Center(child: CircularProgressIndicator(),);
 }
@@ -156,7 +188,61 @@ return
 
           }
 
+
+
+
+
+                    Selector<HomeBodyModelView,List<ProductModel>> AllSaleProductSelector(BuildContext context){
+
+
+  return Selector<HomeBodyModelView,List<ProductModel>>(selector: (context,provider)=>provider.somesalesProducts,
+  
+  shouldRebuild: (previous,next)=>!identical(previous, next),
+  builder: (context, value, child){
+
+    return AllNewProducts(value,context);
+
+
+
+  },
+  );
 }
+
+
+Widget AllSaleProducts(value,BuildContext context){
+
+if(value.length==0){
+
+  return Center(child: CircularProgressIndicator(),);
+}
+
+return 
+
+         
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+          child: Row(children:value.map<Widget>((e){
+
+            return ProductComponent(product: e,deviceWidth: _deviceWidth,deviceHeight: _deviceHeight,context: context,);
+
+          }).toList(),
+          ),
+          );
+           
+
+
+          }
+
+
+}
+
+
+
+
+
+
+
+
 
 
 

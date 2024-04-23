@@ -68,6 +68,10 @@ class HomeModelView extends ChangeNotifier {
     notifyListeners();
 
   }
+  void cleartCartIcon(){
+    cartItems=0;
+    notifyListeners();
+  }
 
 
 

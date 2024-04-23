@@ -7,7 +7,9 @@ class OrderApi extends IOrderRepository {
   @override
   Future<List<OrderModel>> getorders() async{
 
-    return GetIt.instance.get<Seeding>().orders;
+    //return GetIt.instance.get<Seeding>().orders;
+
+    return [];
 
   }
 

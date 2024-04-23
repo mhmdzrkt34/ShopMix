@@ -1,4 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shopmix/modelViews/cart_model_view.dart';
+import 'package:shopmix/modelViews/order_model_view.dart';
+import 'package:shopmix/models/order_items_model.dart';
+import 'package:shopmix/models/order_model.dart';
 
 class OrderMethodModelView extends ChangeNotifier {
 
@@ -21,4 +28,20 @@ class OrderMethodModelView extends ChangeNotifier {
     payOnDelivery=false;
     notifyListeners();
   }
+
+  void payOnDeliveryCLick(BuildContext context){
+
+    GetIt.instance.get<OrderModelView>().addOrder();
+
+    Navigator.pushNamed(context, "/orders");
+
+
+
+
+
+
+
+  }
+
+
 }

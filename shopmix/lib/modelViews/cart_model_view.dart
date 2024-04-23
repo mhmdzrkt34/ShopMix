@@ -81,4 +81,12 @@ class CartModelView extends ChangeNotifier {
     }
 
   }
+
+  void clearCart(){
+  cart.total=0;
+  cartItems=[];
+  GetIt.instance.get<HomeModelView>().cleartCartIcon();
+  notifyListeners();
+
+  }
 }

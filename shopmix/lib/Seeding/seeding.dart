@@ -31,19 +31,19 @@ class Seeding {
     images.add(new ProductImageModel(Id: "123458", product_id: "1",  ImageUrl: "https://www.pny.com/productimages/3855184D-3351-463D-A8B3-ABBA00E498E3/images/5-XLR8-Graphics-Cards-GTX-1660-OC-top-2.png"));
 
 
-    products.add(new ProductModel(id: "1",  isNew: true, salePercentage: 10, title: "keyboard", price: 250,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"));
+    products.add(new ProductModel(id: "1",  isNew: true, salePercentage: 10, title: "keyboard", price: 250,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",category_id: "7"));
 
-    products.add(new ProductModel(id: "2",  isNew: false, salePercentage: 20, title: "laptop", price: 500,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"));
+    products.add(new ProductModel(id: "2",  isNew: false, salePercentage: 20, title: "laptop", price: 500,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",category_id:"8" ));
     
-    products.add(new ProductModel(id: "3", isNew: true, salePercentage: 0, title: "ps5", price: 700,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"));
+    products.add(new ProductModel(id: "3", isNew: true, salePercentage: 0, title: "ps5", price: 700,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",category_id: "22"));
 
-    products.add(new ProductModel(id: "4",isNew: true, salePercentage: 0, title: "rtx 3070", price: 1300,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"));
-     products.add(new ProductModel(id: "5",isNew: true, salePercentage: 0, title: "rtx 2060", price: 1300,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"));
-     products.add(new ProductModel(id: "5", isNew: true, salePercentage: 0, title: "gtx 1660", price: 1500,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"));
+    products.add(new ProductModel(id: "4",isNew: true, salePercentage: 0, title: "rtx 3070", price: 1300,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",category_id: "22"));
+     products.add(new ProductModel(id: "5",isNew: true, salePercentage: 0, title: "rtx 2060", price: 1300,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",category_id: "22"));
+     products.add(new ProductModel(id: "5", isNew: true, salePercentage: 0, title: "gtx 1660", price: 1500,images: images,description: "adssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",category_id: "22"));
 
     categoris.add(CategoryModel(Id: "1",name: "Accessories",categories:[CategoryModel(Id: "7", name: "keyboards", categories: [CategoryModel(Id: "13", name: "scorpion", categories: [])]),CategoryModel(Id: "19", name: "Headsets", categories: [])] ));
     categoris.add(CategoryModel(Id: "2",name: "laptops",categories:[CategoryModel(Id: "8", name: "laptops", categories: [CategoryModel(Id: "14", name: "lenova", categories: [])]),CategoryModel(Id: "20", name: "legion", categories: [])] ));
-    categoris.add(CategoryModel(Id: "3",name: "pc and parts",categories:[CategoryModel(Id: "9", name: "rams", categories: [CategoryModel(Id: "15", name: "cpu", categories: [])]),CategoryModel(Id: "21", name: "monitors", categories: [])] ));
+    categoris.add(CategoryModel(Id: "3",name: "pc and parts",categories:[CategoryModel(Id: "9", name: "rams", categories: [CategoryModel(Id: "15", name: "cpu", categories: [])]),CategoryModel(Id: "21", name: "monitors", categories: []),CategoryModel(Id: "22", name: "GPUS", categories: [])] ));
 
     categoris[0].toggleVisibility();
     categoris[1].toggleVisibility();

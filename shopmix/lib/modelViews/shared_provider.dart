@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shopmix/modelViews/all_new_product_model_view.dart';
 import 'package:shopmix/modelViews/all_product_model_view.dart';
 import 'package:shopmix/modelViews/all_sales_model_view.dart';
+import 'package:shopmix/modelViews/home_body_model_view.dart';
 import 'package:shopmix/models/product_model.dart';
 import 'package:shopmix/repositories/productRepository/IProductRepository.dart';
 import 'package:shopmix/repositories/productRepository/productFirebase.dart';
@@ -33,8 +34,17 @@ onInit();
 
     List<ProductModel>? allnewproducts=allproducts!.where((element) => element.isNew==true).toList();
 
+    GetIt.instance.get<HomeBodyModelView>().getSomeNewProducts(allnewproducts);
+
+    GetIt.instance.get<HomeBodyModelView>().getSomeProducts(allproducts);
+     GetIt.instance.get<HomeBodyModelView>().getSomeSalesProducts(allSales);
+
+    
+
     GetIt.instance.get<AllSalesModelView>().getSalesproducts(allSales);
     GetIt.instance.get<AllNewProductModelView>().getAllNewProducts(allnewproducts);
+
+
 
   }
 

@@ -135,6 +135,10 @@ Widget ConfirmButton(){
     onPressed: (){
       //Navigator.pushNamed(currentcontext, "/orderMethodView");
 
+      if(GetIt.instance.get<OrderMethodModelView>().payOnDelivery==true){
+        GetIt.instance.get<OrderMethodModelView>().payOnDeliveryCLick(currentcontext);
+      }
+
 
     },
   child: Text("Confirm"),),) ;

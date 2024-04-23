@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:shopmix/designs/colors_design.dart';
 import 'package:shopmix/modelViews/categories_model_view.dart';
+import 'package:shopmix/modelViews/category_search_model_view.dart';
 import 'package:shopmix/models/category_model.dart';
 
 import 'package:shopmix/providers/dark_mode_provider.dart';
@@ -13,6 +14,7 @@ class CategoriesView extends StatelessWidget {
 
   late double _deviceWidth;
   late double _deviceHeight;
+  late BuildContext currentContext;
 
 
 
@@ -21,6 +23,7 @@ class CategoriesView extends StatelessWidget {
   Widget build(BuildContext context) {
     _deviceWidth=MediaQuery.of(context).size.width;
     _deviceHeight=MediaQuery.of(context).size.height;
+    currentContext=context;
 
     return MultiProvider(providers: [
       ChangeNotifierProvider.value(value: GetIt.instance.get<CategoriesModelView>()),
@@ -67,9 +70,21 @@ Widget CategoryComponent(double deviceWidth, double deviceHeight, CategoryModel 
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Text(
-                category.name,
-                style: TextStyle(fontSize: deviceWidth * 0.05,color:  GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1]),
+              child: Container(
+
+                child: GestureDetector(
+                  onTap: (){
+                           GetIt.instance.get<CategorySearchModelView>().getProuctsByCategory(category.Id);
+                     Navigator.pushNamed(currentContext, "/categorySearchView");
+
+
+                  },
+
+                  child:  Text(
+                  category.name,
+                  style: TextStyle(fontSize: deviceWidth * 0.05,color:  GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1]),
+                ),
+                )
               ),
             ),
             
@@ -92,9 +107,22 @@ Widget CategoryComponent(double deviceWidth, double deviceHeight, CategoryModel 
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text(
-                    category.name,
-                    style: TextStyle(fontSize: deviceWidth * 0.05,color: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1],),
+                  child: Container(
+                    child: Container(
+                      child: GestureDetector(
+                        onTap: (){
+                          GetIt.instance.get<CategorySearchModelView>().getProuctsByCategory(category.Id);
+                          Navigator.pushNamed(currentContext, "/categorySearchView");
+                          
+                        },
+                      
+                        child: Text(
+                        
+                        category.name,
+                        style: TextStyle(fontSize: deviceWidth * 0.05,color: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1],),
+                      ),
+                      )
+                    ),
                   ),
                 ),
                 GestureDetector(

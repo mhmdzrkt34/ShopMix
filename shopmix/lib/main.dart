@@ -13,6 +13,7 @@ import 'package:shopmix/modelViews/all_new_product_model_view.dart';
 import 'package:shopmix/modelViews/all_product_model_view.dart';
 import 'package:shopmix/modelViews/all_sales_model_view.dart';
 import 'package:shopmix/modelViews/categories_model_view.dart';
+import 'package:shopmix/modelViews/category_search_model_view.dart';
 import 'package:shopmix/modelViews/favourites_model_view.dart';
 import 'package:shopmix/modelViews/home_body_model_view.dart';
 import 'package:shopmix/modelViews/home_model_view.dart';
@@ -31,6 +32,7 @@ import 'package:shopmix/providers/dark_mode_provider.dart';
 import 'package:shopmix/views/all_new_products_view.dart';
 import 'package:shopmix/views/all_product_view.dart';
 import 'package:shopmix/views/all_sales_view.dart';
+import 'package:shopmix/views/category_search_view.dart';
 import 'package:shopmix/views/home_view.dart';
 import 'package:shopmix/views/login_view.dart';
 import 'package:shopmix/views/order_method_view.dart';
@@ -75,6 +77,8 @@ void main() async{
   GetIt.instance.registerSingleton<ProductDetailsModelView>(ProductDetailsModelView());
 
   GetIt.instance.registerSingleton<OrderMethodModelView>(OrderMethodModelView());
+  
+  GetIt.instance.registerSingleton<CategorySearchModelView>(CategorySearchModelView());
 
   
    WidgetsFlutterBinding.ensureInitialized();
@@ -114,7 +118,8 @@ class MyApp extends StatelessWidget {
         "/AllSalesView":(context)=>AllSalesView(),
         "/AllNewView":(context)=>AllNewProductsView(),
         "/productDetail":(context)=>productDetailsView(),
-        "/orderMethodView":(context)=>OrderMethodView()
+        "/orderMethodView":(context)=>OrderMethodView(),
+        "/categorySearchView":(context) => CategorySearchView()
       },
 
     );
