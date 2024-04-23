@@ -14,7 +14,7 @@ class LoginView extends StatelessWidget {
   late double _deviceTopPadding;
   @override
   Widget build(BuildContext context) {
-    GetIt.instance.get<LoginFormController>().putContextValue(context);
+    GetIt.instance.get<LoginZaraketFormController>().putContextValue(context);
     _deviceHeight=MediaQuery.of(context).size.height;
     _deviceWidth=MediaQuery.of(context).size.width;
     _deviceTopPadding=MediaQuery.of(context).padding.top;
@@ -30,7 +30,7 @@ class LoginView extends StatelessWidget {
   }
   Widget FormContainer(){
     return Form(
-      key: GetIt.instance.get<LoginFormController>().loginFormKey,
+      key: GetIt.instance.get<LoginZaraketFormController>().loginFormKey,
       child: Column(children: [EmailFormField(),PasswordFormField()],));
   }
 
@@ -44,8 +44,8 @@ class LoginView extends StatelessWidget {
          0,
            GetIt.instance.get<ColorsDesign>().light[1],
             20,
-            GetIt.instance.get<LoginFormController>().changeEmail,
-            GetIt.instance.get<LoginFormController>().validators[0]
+            GetIt.instance.get<LoginZaraketFormController>().changeEmail,
+            GetIt.instance.get<LoginZaraketFormController>().validators[0]
              );
   }
     Widget PasswordFormField(){
@@ -57,8 +57,8 @@ class LoginView extends StatelessWidget {
          0,
            GetIt.instance.get<ColorsDesign>().light[1],
             20,
-                        GetIt.instance.get<LoginFormController>().changePassword,
-            GetIt.instance.get<LoginFormController>().validators[1]
+                        GetIt.instance.get<LoginZaraketFormController>().changePassword,
+            GetIt.instance.get<LoginZaraketFormController>().validators[1]
             );
   }
   Widget LoginButton(){
@@ -67,7 +67,7 @@ class LoginView extends StatelessWidget {
      [0,0,0,0],
       [0,0,0,0],
        "Login", 
-       GetIt.instance.get<LoginFormController>().onpress,
+       GetIt.instance.get<LoginZaraketFormController>().onpress,
          GetIt.instance.get<ColorsDesign>().light[2],
             20,
              20,GetIt.instance.get<ColorsDesign>().light[0]);

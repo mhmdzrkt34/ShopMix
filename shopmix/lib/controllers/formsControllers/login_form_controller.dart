@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:shopmix/controllers/formsControllers/form_controller.dart';
 
 
-class LoginFormController extends FormController {
+class LoginZaraketFormController extends FormController {
 
   final GlobalKey<FormState> loginFormKey=GlobalKey<FormState>();
   late BuildContext _context;
