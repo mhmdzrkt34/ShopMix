@@ -13,11 +13,14 @@ class ColorsDesign {
     "input": const Color(0xFFFFFFFF),
     "inputfoucs": const Color(0xFFFFFFFF),
     "label": const Color(0xFF9B9B9B),
-    "background": Color.fromARGB(255, 243, 238, 238),
+    // "background": Color.fromARGB(255, 243, 238, 238),
+    "background": Colors.white,
     "button": const Color(0xFFDB3022),
-    "buttontext": const Color(0xFF1A1A1A),
+    "buttontext": Colors.white,
     "title": const Color(0xFF1A1A1A),
     "focusedBorder": Color.fromARGB(255, 170, 169, 169),
+    "socilafb": Colors.white,
+    "socilagooogle": Color.fromARGB(255, 236, 233, 233),
   };
 
   final Map<String, Color> dark = {
@@ -29,6 +32,8 @@ class ColorsDesign {
     "buttontext": Color.fromARGB(255, 243, 238, 238),
     "title": const Color(0xFFFFFFFF),
     "focusedBorder": const Color(0xFFFFFFFF),
+    "socilafb": Colors.black,
+    "socilagooogle": Color.fromARGB(255, 231, 223, 223),
   };
 
   String getLabelFromColor(Color color) {

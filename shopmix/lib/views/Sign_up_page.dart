@@ -8,7 +8,7 @@ import 'package:shopmix/components/FormFielComonent.dart';
 import 'package:shopmix/components/buttonComponent/button_component.dart';
 import 'package:shopmix/components/logo/logo.dart';
 import 'package:shopmix/darkmode/signup_dark_provider.dart';
-import 'package:shopmix/designs/colors_design.dart';
+import 'package:shopmix/designs/colors_design_kazem.dart';
 
 class Signup extends StatelessWidget {
   Signup({super.key});
@@ -451,9 +451,7 @@ class Signup extends StatelessWidget {
           left: _deviceWidth * 0.03),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
+        color: Colors.blue.shade400,
         borderRadius: BorderRadius.circular(10),
       ),
       child: IconButton(
@@ -461,7 +459,9 @@ class Signup extends StatelessWidget {
         icon: Icon(
           size: _deviceHeight * 0.05,
           Icons.facebook,
-          color: Colors.blue,
+          color: GetIt.instance<ColorsDesign>().isDark
+            ? GetIt.instance<ColorsDesign>().dark["socilafb"]
+            : GetIt.instance<ColorsDesign>().light["socilafb"],
         ),
         onPressed: () {},
       ),
@@ -474,8 +474,8 @@ class Signup extends StatelessWidget {
           top: _deviceHeight * 0.02, bottom: _deviceHeight * 0.02),
       decoration: BoxDecoration(
         color: GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
+            ? GetIt.instance<ColorsDesign>().dark["socilagooogle"]
+            : GetIt.instance<ColorsDesign>().light["socilagooogle"],
         borderRadius: BorderRadius.circular(10),
       ),
       child: SizedBox(

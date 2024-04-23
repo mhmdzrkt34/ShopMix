@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shopmix/Controllers/SignUpFormController.dart';
-import 'package:shopmix/designs/colors_design.dart';
+import 'package:shopmix/designs/colors_design_kazem.dart';
 
 class FormFieldComponent extends StatelessWidget {
   final String? Function(String?)? _validate;

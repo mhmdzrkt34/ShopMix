@@ -6,7 +6,7 @@ import 'package:shopmix/components/FormFielComonent.dart';
 import 'package:shopmix/components/buttonComponent/button_component.dart';
 import 'package:shopmix/components/logo/logo.dart';
 import 'package:shopmix/darkmode/signup_dark_provider.dart';
-import 'package:shopmix/designs/colors_design.dart';
+import 'package:shopmix/designs/colors_design_kazem.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -35,48 +35,50 @@ class Login extends StatelessWidget {
               ? GetIt.instance<ColorsDesign>().dark["background"]!
               : GetIt.instance<ColorsDesign>().light["background"]!;
 
-          return Scaffold(
-            backgroundColor: backgroundColor,
-            appBar: AppBar(
-              title: Text(
-                "Login",
-                style: TextStyle(
-                    color: GetIt.instance<ColorsDesign>().isDark
-                        ? GetIt.instance<ColorsDesign>().dark["title"]
-                        : GetIt.instance<ColorsDesign>().light["title"]),
-              ),
+          return SafeArea(
+            child: Scaffold(
               backgroundColor: backgroundColor,
-              actions: <Widget>[
-                IconButton(
-                  icon: GetIt.instance<ColorsDesign>().isDark
-                      ? const Icon(
-                          Icons.light_mode,
-                          color: Colors.white,
-                        )
-                      : const Icon(
-                          Icons.dark_mode,
-                          color: Colors.black,
-                        ),
-                  onPressed: () {
-                    GetIt.instance.get<SignupDarkprovider>().changeMode();
-
-                    print("Background render");
-                  },
+              appBar: AppBar(
+                title: Text(
+                  "Login",
+                  style: TextStyle(
+                      color: GetIt.instance<ColorsDesign>().isDark
+                          ? GetIt.instance<ColorsDesign>().dark["title"]
+                          : GetIt.instance<ColorsDesign>().light["title"]),
                 ),
-              ],
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  _logofather(),
-                  _form(),
-                  _forgetpassword(),
-                  _submit(),
-                  _or(),
-                  _sociallogin(),
-                  _haveaccount(),
+                backgroundColor: backgroundColor,
+                actions: <Widget>[
+                  IconButton(
+                    icon: GetIt.instance<ColorsDesign>().isDark
+                        ? const Icon(
+                            Icons.light_mode,
+                            color: Colors.white,
+                          )
+                        : const Icon(
+                            Icons.dark_mode,
+                            color: Colors.black,
+                          ),
+                    onPressed: () {
+                      GetIt.instance.get<SignupDarkprovider>().changeMode();
+
+                      print("Background render");
+                    },
+                  ),
                 ],
+              ),
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    _logofather(),
+                    _form(),
+                    _forgetpassword(),
+                    _submit(),
+                    _or(),
+                    _sociallogin(),
+                    _haveaccount(),
+                  ],
+                ),
               ),
             ),
           );

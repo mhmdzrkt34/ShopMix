@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shopmix/Controllers/LoginFormController.dart';
 import 'package:shopmix/Controllers/SignUpFormController.dart';
 import 'package:shopmix/darkmode/signup_dark_provider.dart';
-import 'package:shopmix/designs/colors_design.dart';
+import 'package:shopmix/designs/colors_design_kazem.dart';
 import 'package:shopmix/views/Login_page.dart';
 import 'package:shopmix/views/Sign_up_page.dart';
 
