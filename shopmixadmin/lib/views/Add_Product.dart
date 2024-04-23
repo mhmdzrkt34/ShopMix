@@ -17,7 +17,7 @@ import 'package:shopmixadmin/model_views/category_model_view.dart';
 import 'package:shopmixadmin/models/category.dart';
 
 class addProduct extends StatelessWidget {
-
+  addProduct({super.key});
   late double _deviceHight;
   late double _deviceWidth;
 
@@ -55,7 +55,7 @@ class addProduct extends StatelessWidget {
       ],
       child: Scaffold(
         appBar: AdminAppBar(_deviceHight, _deviceWidth, "ADD Product"),
-        drawer:  SideBar(context),
+        drawer: SideBar(context),
         body: SafeArea(
           child: SingleChildScrollView(
             child: _maincolumn(),

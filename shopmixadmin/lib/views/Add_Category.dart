@@ -13,6 +13,7 @@ import 'package:shopmixadmin/model_views/category_model_view.dart';
 import 'package:shopmixadmin/models/category.dart';
 
 class addCategory extends StatelessWidget {
+  addCategory({super.key});
   late double _deviceHight;
   late double _deviceWidth;
 
@@ -76,7 +77,7 @@ class addCategory extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: _deviceHight * 0.025),
       child: Form(
-          key: GetIt.instance<ADDCategoryFormController>().keyaddcategory,
+          key: ADDCategoryFormController.keyaddcategory,
           child: Column(
             children: _FormFields(),
           )),

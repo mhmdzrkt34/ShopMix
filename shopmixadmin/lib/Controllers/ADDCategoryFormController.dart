@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ADDCategoryFormController {
-  final GlobalKey<FormState> keyaddcategory = GlobalKey<FormState>();
+  static GlobalKey<FormState> keyaddcategory = GlobalKey<FormState>();
 
   String Title = "";
   String parentcategoryid = "";
@@ -13,12 +13,12 @@ class ADDCategoryFormController {
 
   void changeTitle(String? _Title) {
     print(_Title! + "changingg title");
-    this.Title = _Title!;
+    this.Title = _Title;
   }
 
   void changeparentid(String? _id) {
     if (_id != null) {
-      this.parentcategoryid = _id!;
+      this.parentcategoryid = _id;
     }
   }
 

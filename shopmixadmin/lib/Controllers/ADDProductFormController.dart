@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shopmixadmin/image_provider/product_image_provider.dart';
 
 class ADDProductFormController {
-  final GlobalKey<FormState> productFormKey = GlobalKey<FormState>();
+   GlobalKey<FormState> productFormKey = GlobalKey<FormState>();
 
   String Title = "";
   String Description = "";
@@ -19,7 +19,7 @@ class ADDProductFormController {
 
   void changeTitle(String? _Title) {
     print(" title chnging: " + _Title!);
-    Title = _Title!;
+    Title = _Title;
   }
 
   void changeDescription(String? Description) {

@@ -28,7 +28,7 @@ class SideBar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(currentcontext, "/");
+              Navigator.pushReplacementNamed(currentcontext, "/");
             },
           ),
           ListTile(
@@ -43,7 +43,7 @@ class SideBar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(currentcontext, "/AllProducts");
+              Navigator.pushReplacementNamed(currentcontext, "/AllProducts");
             },
           ),
           ListTile(
@@ -58,7 +58,7 @@ class SideBar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(currentcontext, "/AddProduct");
+              Navigator.pushReplacementNamed(currentcontext, "/AddProduct");
             },
           ),
           ListTile(
@@ -73,7 +73,7 @@ class SideBar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(currentcontext, "/AllCategory");
+              Navigator.pushReplacementNamed(currentcontext, "/AllCategory");
             },
           ),
           ListTile(
@@ -88,7 +88,7 @@ class SideBar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(currentcontext, "/AddCategory");
+              Navigator.pushReplacementNamed(currentcontext, "/AddCategory");
             },
           ),
           ListTile(
@@ -103,7 +103,7 @@ class SideBar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pushNamed(currentcontext, "/Setting");
+              Navigator.pushReplacementNamed(currentcontext, "/Setting");
             },
           ),
         ],
