@@ -24,9 +24,9 @@ class FormFieldComponent extends StatelessWidget {
         prefixIcon: _icon,
         labelStyle: TextStyle(
           fontSize: 20.0,
-          color: GetIt.instance<ColorsDesign>().isDark
-              ? GetIt.instance<ColorsDesign>().dark['label']
-              : GetIt.instance<ColorsDesign>().light['label'],
+          color: GetIt.instance<ColorsDesignkazem>().isDark
+              ? GetIt.instance<ColorsDesignkazem>().dark['label']
+              : GetIt.instance<ColorsDesignkazem>().light['label'],
         ),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         enabledBorder: const OutlineInputBorder(
@@ -43,10 +43,10 @@ class FormFieldComponent extends StatelessWidget {
             Radius.circular(15),
           ),
           borderSide: BorderSide(
-            color: GetIt.instance<ColorsDesign>().isDark
-                ? GetIt.instance<ColorsDesign>().dark['focusedBorder'] ??
+            color: GetIt.instance<ColorsDesignkazem>().isDark
+                ? GetIt.instance<ColorsDesignkazem>().dark['focusedBorder'] ??
                     Colors.white
-                : GetIt.instance<ColorsDesign>().light['focusedBorder'] ??
+                : GetIt.instance<ColorsDesignkazem>().light['focusedBorder'] ??
                     Colors.black,
             // Color.fromARGB(255, 170, 169, 169),
             width: 2.0,

@@ -13,7 +13,7 @@ import 'package:shopmix/views/Sign_up_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  GetIt.instance.registerSingleton<ColorsDesign>(ColorsDesign());
+  GetIt.instance.registerSingleton<ColorsDesignkazem>(ColorsDesignkazem());
   GetIt.instance.registerSingleton<SignupDarkprovider>(SignupDarkprovider());
   GetIt.instance.registerSingleton<LoginFormController>(LoginFormController());
 

@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:shopmix/Controllers/LoginFormController.dart';
 import 'package:shopmix/components/FormFielComonent.dart';
-import 'package:shopmix/components/buttonComponent/button_component.dart';
+import 'package:shopmix/components/buttonComponent/button_component_kazem.dart';
 import 'package:shopmix/components/logo/logo.dart';
 import 'package:shopmix/darkmode/signup_dark_provider.dart';
 import 'package:shopmix/designs/colors_design_kazem.dart';
@@ -17,7 +17,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    color = GetIt.instance<ColorsDesign>().light["background"]!;
+    color = GetIt.instance<ColorsDesignkazem>().light["background"]!;
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     return MultiProvider(
@@ -32,8 +32,8 @@ class Login extends StatelessWidget {
         builder: (context, isDark, child) {
           _context = context;
           final Color backgroundColor = isDark
-              ? GetIt.instance<ColorsDesign>().dark["background"]!
-              : GetIt.instance<ColorsDesign>().light["background"]!;
+              ? GetIt.instance<ColorsDesignkazem>().dark["background"]!
+              : GetIt.instance<ColorsDesignkazem>().light["background"]!;
 
           return SafeArea(
             child: Scaffold(
@@ -42,14 +42,14 @@ class Login extends StatelessWidget {
                 title: Text(
                   "Login",
                   style: TextStyle(
-                      color: GetIt.instance<ColorsDesign>().isDark
-                          ? GetIt.instance<ColorsDesign>().dark["title"]
-                          : GetIt.instance<ColorsDesign>().light["title"]),
+                      color: GetIt.instance<ColorsDesignkazem>().isDark
+                          ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                          : GetIt.instance<ColorsDesignkazem>().light["title"]),
                 ),
                 backgroundColor: backgroundColor,
                 actions: <Widget>[
                   IconButton(
-                    icon: GetIt.instance<ColorsDesign>().isDark
+                    icon: GetIt.instance<ColorsDesignkazem>().isDark
                         ? const Icon(
                             Icons.light_mode,
                             color: Colors.white,
@@ -116,9 +116,9 @@ class Login extends StatelessWidget {
           logo(
               _deviceHeight * 0.1,
               _deviceWidth * 0.3,
-              GetIt.instance<ColorsDesign>().isDark
-                  ? GetIt.instance<ColorsDesign>().dark["title"]
-                  : GetIt.instance<ColorsDesign>().light["title"],
+              GetIt.instance<ColorsDesignkazem>().isDark
+                  ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                  : GetIt.instance<ColorsDesignkazem>().light["title"],
               30),
         ],
       ),
@@ -136,10 +136,10 @@ class Login extends StatelessWidget {
         _emailValidate,
         GetIt.instance<LoginFormController>().changeEmail,
         "Email",
-        GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
-        GetIt.instance<ColorsDesign>().light["inputfoucs"],
+        GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["input"]
+            : GetIt.instance<ColorsDesignkazem>().light["input"],
+        GetIt.instance<ColorsDesignkazem>().light["inputfoucs"],
         false,
         const Icon(Icons.email_outlined),
       ),
@@ -171,10 +171,10 @@ class Login extends StatelessWidget {
         _passwordValidate,
         GetIt.instance<LoginFormController>().changePassword,
         "Password",
-        GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
-        GetIt.instance<ColorsDesign>().light["inputfoucs"],
+        GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["input"]
+            : GetIt.instance<ColorsDesignkazem>().light["input"],
+        GetIt.instance<ColorsDesignkazem>().light["inputfoucs"],
         true,
         const Icon(Icons.security_sharp),
       ),
@@ -204,9 +204,9 @@ class Login extends StatelessWidget {
             "Don't have account",
             style: TextStyle(
                 fontSize: 16,
-                color: GetIt.instance<ColorsDesign>().isDark
-                    ? GetIt.instance<ColorsDesign>().dark["title"]
-                    : GetIt.instance<ColorsDesign>().light["title"]),
+                color: GetIt.instance<ColorsDesignkazem>().isDark
+                    ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                    : GetIt.instance<ColorsDesignkazem>().light["title"]),
           ),
           _Sigup(),
         ],
@@ -222,12 +222,12 @@ class Login extends StatelessWidget {
         style: TextStyle(
             fontWeight: FontWeight.w800,
             decoration: TextDecoration.underline,
-            decorationColor: GetIt.instance<ColorsDesign>().isDark
-                ? GetIt.instance<ColorsDesign>().dark["title"]
-                : GetIt.instance<ColorsDesign>().light["title"],
-            color: GetIt.instance<ColorsDesign>().isDark
-                ? GetIt.instance<ColorsDesign>().dark["title"]
-                : GetIt.instance<ColorsDesign>().light["title"]),
+            decorationColor: GetIt.instance<ColorsDesignkazem>().isDark
+                ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                : GetIt.instance<ColorsDesignkazem>().light["title"],
+            color: GetIt.instance<ColorsDesignkazem>().isDark
+                ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                : GetIt.instance<ColorsDesignkazem>().light["title"]),
       ),
     );
   }
@@ -244,12 +244,12 @@ class Login extends StatelessWidget {
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   decoration: TextDecoration.underline,
-                  decorationColor: GetIt.instance<ColorsDesign>().isDark
-                      ? GetIt.instance<ColorsDesign>().dark["title"]
-                      : GetIt.instance<ColorsDesign>().light["title"],
-                  color: GetIt.instance<ColorsDesign>().isDark
-                      ? GetIt.instance<ColorsDesign>().dark["title"]
-                      : GetIt.instance<ColorsDesign>().light["title"]),
+                  decorationColor: GetIt.instance<ColorsDesignkazem>().isDark
+                      ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                      : GetIt.instance<ColorsDesignkazem>().light["title"],
+                  color: GetIt.instance<ColorsDesignkazem>().isDark
+                      ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                      : GetIt.instance<ColorsDesignkazem>().light["title"]),
             ),
           ),
         ],
@@ -260,17 +260,18 @@ class Login extends StatelessWidget {
   Widget _submit() {
     return Container(
       margin: EdgeInsets.only(top: _deviceHeight * 0.005),
-      child: buttonComponent(
+      child: buttonComponentkazem(
         [_deviceWidth * 0.9, _deviceHeight * 0.05],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         "Login",
         GetIt.instance<LoginFormController>().onTap,
-        GetIt.instance<ColorsDesign>().light["button"]!,
+        GetIt.instance<ColorsDesignkazem>().light["button"]!,
         20,
-        GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["buttontext"] ?? Colors.white
-            : GetIt.instance<ColorsDesign>().light["buttontext"] ??
+        GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["buttontext"] ??
+                Colors.white
+            : GetIt.instance<ColorsDesignkazem>().light["buttontext"] ??
                 Colors.black,
         _context,
       ),
@@ -289,9 +290,9 @@ class Login extends StatelessWidget {
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: GetIt.instance<ColorsDesign>().isDark
-                    ? GetIt.instance<ColorsDesign>().dark["title"]
-                    : GetIt.instance<ColorsDesign>().light["title"]),
+                color: GetIt.instance<ColorsDesignkazem>().isDark
+                    ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                    : GetIt.instance<ColorsDesignkazem>().light["title"]),
           ),
         ],
       ),
@@ -319,9 +320,9 @@ class Login extends StatelessWidget {
           left: _deviceWidth * 0.03),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
+        color: GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["input"]
+            : GetIt.instance<ColorsDesignkazem>().light["input"],
         borderRadius: BorderRadius.circular(10),
       ),
       child: IconButton(
@@ -341,9 +342,9 @@ class Login extends StatelessWidget {
       padding: EdgeInsets.only(
           top: _deviceHeight * 0.02, bottom: _deviceHeight * 0.02),
       decoration: BoxDecoration(
-        color: GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
+        color: GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["input"]
+            : GetIt.instance<ColorsDesignkazem>().light["input"],
         borderRadius: BorderRadius.circular(10),
       ),
       child: SizedBox(

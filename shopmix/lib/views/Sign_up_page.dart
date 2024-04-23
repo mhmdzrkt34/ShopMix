@@ -5,7 +5,7 @@ import 'package:phone_form_field/phone_form_field.dart';
 import 'package:provider/provider.dart';
 import 'package:shopmix/Controllers/SignUpFormController.dart';
 import 'package:shopmix/components/FormFielComonent.dart';
-import 'package:shopmix/components/buttonComponent/button_component.dart';
+import 'package:shopmix/components/buttonComponent/button_component_kazem.dart';
 import 'package:shopmix/components/logo/logo.dart';
 import 'package:shopmix/darkmode/signup_dark_provider.dart';
 import 'package:shopmix/designs/colors_design_kazem.dart';
@@ -19,7 +19,7 @@ class Signup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    color = GetIt.instance<ColorsDesign>().light["background"]!;
+    color = GetIt.instance<ColorsDesignkazem>().light["background"]!;
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     return MultiProvider(
@@ -34,8 +34,8 @@ class Signup extends StatelessWidget {
         builder: (context, isDark, child) {
           _context = context;
           final Color backgroundColor = isDark
-              ? GetIt.instance<ColorsDesign>().dark["background"]!
-              : GetIt.instance<ColorsDesign>().light["background"]!;
+              ? GetIt.instance<ColorsDesignkazem>().dark["background"]!
+              : GetIt.instance<ColorsDesignkazem>().light["background"]!;
 
           return Scaffold(
             backgroundColor: backgroundColor,
@@ -43,14 +43,14 @@ class Signup extends StatelessWidget {
               title: Text(
                 "Sign Up",
                 style: TextStyle(
-                    color: GetIt.instance<ColorsDesign>().isDark
-                        ? GetIt.instance<ColorsDesign>().dark["title"]
-                        : GetIt.instance<ColorsDesign>().light["title"]),
+                    color: GetIt.instance<ColorsDesignkazem>().isDark
+                        ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                        : GetIt.instance<ColorsDesignkazem>().light["title"]),
               ),
               backgroundColor: backgroundColor,
               actions: <Widget>[
                 IconButton(
-                  icon: GetIt.instance<ColorsDesign>().isDark
+                  icon: GetIt.instance<ColorsDesignkazem>().isDark
                       ? const Icon(
                           Icons.light_mode,
                           color: Colors.white,
@@ -118,9 +118,9 @@ class Signup extends StatelessWidget {
           logo(
               _deviceHeight * 0.1,
               _deviceWidth * 0.3,
-              GetIt.instance<ColorsDesign>().isDark
-                  ? GetIt.instance<ColorsDesign>().dark["title"]
-                  : GetIt.instance<ColorsDesign>().light["title"],
+              GetIt.instance<ColorsDesignkazem>().isDark
+                  ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                  : GetIt.instance<ColorsDesignkazem>().light["title"],
               30),
         ],
       ),
@@ -161,9 +161,9 @@ class Signup extends StatelessWidget {
           labelText: 'Phone Number',
           labelStyle: TextStyle(
             fontSize: 20.0,
-            color: GetIt.instance<ColorsDesign>().isDark
-                ? GetIt.instance<ColorsDesign>().dark['label']
-                : GetIt.instance<ColorsDesign>().light['label'],
+            color: GetIt.instance<ColorsDesignkazem>().isDark
+                ? GetIt.instance<ColorsDesignkazem>().dark['label']
+                : GetIt.instance<ColorsDesignkazem>().light['label'],
           ),
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           enabledBorder: const OutlineInputBorder(
@@ -180,10 +180,11 @@ class Signup extends StatelessWidget {
               Radius.circular(15),
             ),
             borderSide: BorderSide(
-              color: GetIt.instance<ColorsDesign>().isDark
-                  ? GetIt.instance<ColorsDesign>().dark['focusedBorder'] ??
+              color: GetIt.instance<ColorsDesignkazem>().isDark
+                  ? GetIt.instance<ColorsDesignkazem>().dark['focusedBorder'] ??
                       Colors.white
-                  : GetIt.instance<ColorsDesign>().light['focusedBorder'] ??
+                  : GetIt.instance<ColorsDesignkazem>()
+                          .light['focusedBorder'] ??
                       Colors.black,
               width: 2.0,
             ),
@@ -198,10 +199,10 @@ class Signup extends StatelessWidget {
             ),
           ),
           filled: true,
-          fillColor: GetIt.instance<ColorsDesign>().isDark
-              ? GetIt.instance<ColorsDesign>().dark["input"]
-              : GetIt.instance<ColorsDesign>().light["input"],
-          focusColor: GetIt.instance<ColorsDesign>().light["inputfoucs"],
+          fillColor: GetIt.instance<ColorsDesignkazem>().isDark
+              ? GetIt.instance<ColorsDesignkazem>().dark["input"]
+              : GetIt.instance<ColorsDesignkazem>().light["input"],
+          focusColor: GetIt.instance<ColorsDesignkazem>().light["inputfoucs"],
         ),
       ),
     );
@@ -218,10 +219,10 @@ class Signup extends StatelessWidget {
         Namevalidate,
         GetIt.instance<SignUpFormController>().changeusername,
         "Name",
-        GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
-        GetIt.instance<ColorsDesign>().light["inputfoucs"],
+        GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["input"]
+            : GetIt.instance<ColorsDesignkazem>().light["input"],
+        GetIt.instance<ColorsDesignkazem>().light["inputfoucs"],
         false,
         const Icon(Icons.person),
       ),
@@ -244,10 +245,10 @@ class Signup extends StatelessWidget {
         _emailValidate,
         GetIt.instance<SignUpFormController>().changeEmail,
         "Email",
-        GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
-        GetIt.instance<ColorsDesign>().light["inputfoucs"],
+        GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["input"]
+            : GetIt.instance<ColorsDesignkazem>().light["input"],
+        GetIt.instance<ColorsDesignkazem>().light["inputfoucs"],
         false,
         const Icon(Icons.email_outlined),
       ),
@@ -279,10 +280,10 @@ class Signup extends StatelessWidget {
         _passwordValidate,
         GetIt.instance<SignUpFormController>().changePassword,
         "Password",
-        GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
-        GetIt.instance<ColorsDesign>().light["inputfoucs"],
+        GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["input"]
+            : GetIt.instance<ColorsDesignkazem>().light["input"],
+        GetIt.instance<ColorsDesignkazem>().light["inputfoucs"],
         true,
         const Icon(Icons.security_sharp),
       ),
@@ -328,10 +329,10 @@ class Signup extends StatelessWidget {
         _confirmPasswordValidate,
         GetIt.instance<SignUpFormController>().changecomfirmpassword,
         "Confirm Password",
-        GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["input"]
-            : GetIt.instance<ColorsDesign>().light["input"],
-        GetIt.instance<ColorsDesign>().light["inputfoucs"],
+        GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["input"]
+            : GetIt.instance<ColorsDesignkazem>().light["input"],
+        GetIt.instance<ColorsDesignkazem>().light["inputfoucs"],
         true,
         const Icon(Icons.security_sharp),
       ),
@@ -365,9 +366,9 @@ class Signup extends StatelessWidget {
             "already have account",
             style: TextStyle(
                 fontSize: 16,
-                color: GetIt.instance<ColorsDesign>().isDark
-                    ? GetIt.instance<ColorsDesign>().dark["title"]
-                    : GetIt.instance<ColorsDesign>().light["title"]),
+                color: GetIt.instance<ColorsDesignkazem>().isDark
+                    ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                    : GetIt.instance<ColorsDesignkazem>().light["title"]),
           ),
           _login(),
         ],
@@ -383,28 +384,30 @@ class Signup extends StatelessWidget {
         style: TextStyle(
             fontWeight: FontWeight.w500,
             decoration: TextDecoration.underline,
-            decorationColor: GetIt.instance<ColorsDesign>().isDark
-                ? GetIt.instance<ColorsDesign>().dark["title"]
-                : GetIt.instance<ColorsDesign>().light["title"],
-            color: GetIt.instance<ColorsDesign>().isDark
-                ? GetIt.instance<ColorsDesign>().dark["title"]
-                : GetIt.instance<ColorsDesign>().light["title"]),
+            decorationColor: GetIt.instance<ColorsDesignkazem>().isDark
+                ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                : GetIt.instance<ColorsDesignkazem>().light["title"],
+            color: GetIt.instance<ColorsDesignkazem>().isDark
+                ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                : GetIt.instance<ColorsDesignkazem>().light["title"]),
       ),
     );
   }
 
   Widget _submit() {
-    return buttonComponent(
+    return buttonComponentkazem(
       [_deviceWidth * 0.9, _deviceHeight * 0.05],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       "Sign UP",
       GetIt.instance<SignUpFormController>().onTap,
-      GetIt.instance<ColorsDesign>().light["button"]!,
+      GetIt.instance<ColorsDesignkazem>().light["button"]!,
       20,
-      GetIt.instance<ColorsDesign>().isDark
-          ? GetIt.instance<ColorsDesign>().dark["buttontext"] ?? Colors.white
-          : GetIt.instance<ColorsDesign>().light["buttontext"] ?? Colors.black,
+      GetIt.instance<ColorsDesignkazem>().isDark
+          ? GetIt.instance<ColorsDesignkazem>().dark["buttontext"] ??
+              Colors.white
+          : GetIt.instance<ColorsDesignkazem>().light["buttontext"] ??
+              Colors.black,
       _context,
     );
   }
@@ -421,9 +424,9 @@ class Signup extends StatelessWidget {
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: GetIt.instance<ColorsDesign>().isDark
-                    ? GetIt.instance<ColorsDesign>().dark["title"]
-                    : GetIt.instance<ColorsDesign>().light["title"]),
+                color: GetIt.instance<ColorsDesignkazem>().isDark
+                    ? GetIt.instance<ColorsDesignkazem>().dark["title"]
+                    : GetIt.instance<ColorsDesignkazem>().light["title"]),
           ),
         ],
       ),
@@ -459,9 +462,9 @@ class Signup extends StatelessWidget {
         icon: Icon(
           size: _deviceHeight * 0.05,
           Icons.facebook,
-          color: GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["socilafb"]
-            : GetIt.instance<ColorsDesign>().light["socilafb"],
+          color: GetIt.instance<ColorsDesignkazem>().isDark
+              ? GetIt.instance<ColorsDesignkazem>().dark["socilafb"]
+              : GetIt.instance<ColorsDesignkazem>().light["socilafb"],
         ),
         onPressed: () {},
       ),
@@ -473,9 +476,9 @@ class Signup extends StatelessWidget {
       padding: EdgeInsets.only(
           top: _deviceHeight * 0.02, bottom: _deviceHeight * 0.02),
       decoration: BoxDecoration(
-        color: GetIt.instance<ColorsDesign>().isDark
-            ? GetIt.instance<ColorsDesign>().dark["socilagooogle"]
-            : GetIt.instance<ColorsDesign>().light["socilagooogle"],
+        color: GetIt.instance<ColorsDesignkazem>().isDark
+            ? GetIt.instance<ColorsDesignkazem>().dark["socilagooogle"]
+            : GetIt.instance<ColorsDesignkazem>().light["socilagooogle"],
         borderRadius: BorderRadius.circular(10),
       ),
       child: SizedBox(

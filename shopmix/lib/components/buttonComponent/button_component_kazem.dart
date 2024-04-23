@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shopmix/designs/colors_design_kazem.dart';
 
-class buttonComponent extends StatelessWidget {
+class buttonComponentkazem extends StatelessWidget {
   late List<double> _size, _padding, _margin;
   late String _title;
   late Function _toDoOnPress;
@@ -10,10 +10,10 @@ class buttonComponent extends StatelessWidget {
   late double _borderRadius;
   late Color _fontColor;
   late BuildContext _context;
-  buttonComponent(
+  buttonComponentkazem(
     List<double> size,
     List<double> padding,
-    List<double> margin, // Add margin parameter
+    List<double> margin,
     String title,
     Function toDoOnPress,
     Color bgcolor,
@@ -60,17 +60,18 @@ class buttonComponent extends StatelessWidget {
   }
 
   void getColor() {
-    String label =
-        GetIt.instance.get<ColorsDesign>().getLabelFromColor(_backgroundColor);
+    String label = GetIt.instance
+        .get<ColorsDesignkazem>()
+        .getLabelFromColor(_backgroundColor);
     changecolor(label, _backgroundColor);
     String label2 =
-        GetIt.instance.get<ColorsDesign>().getLabelFromColor(_fontColor);
+        GetIt.instance.get<ColorsDesignkazem>().getLabelFromColor(_fontColor);
     changecolor(label2, _fontColor);
   }
 
   void changecolor(String label, Color color) {
-    GetIt.instance.get<ColorsDesign>().isDark
-        ? color = GetIt.instance.get<ColorsDesign>().dark[label]!
-        : color = GetIt.instance.get<ColorsDesign>().light[label]!;
+    GetIt.instance.get<ColorsDesignkazem>().isDark
+        ? color = GetIt.instance.get<ColorsDesignkazem>().dark[label]!
+        : color = GetIt.instance.get<ColorsDesignkazem>().light[label]!;
   }
 }

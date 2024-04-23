@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ColorsDesign {
-  ColorsDesign();
+class ColorsDesignkazem {
+  ColorsDesignkazem();
 
   bool isDark = false;
 
