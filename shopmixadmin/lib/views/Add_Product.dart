@@ -26,14 +26,46 @@ class addProduct extends StatelessWidget {
 
   Future<void> _selectImages() async {
     try {
-      List<XFile> selectedImages = await picker.pickMultiImage();
+      final String? selectedOption = await showDialog<String>(
+        context: _context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text('Select Image'),
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context, 'Gallery'),
+                child: const Text('Gallery'),
+              ),
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context, 'Camera'),
+                child: const Text('Camera'),
+              ),
+            ],
+          );
+        },
+      );
 
-      if (selectedImages.isNotEmpty) {
-        GetIt.instance.get<ProductImageProvider>().addimages(selectedImages);
-        print("added");
+      if (selectedOption != null) {
+        List<XFile> selectedImages = [];
+
+        // Handle gallery or camera choice
+        if (selectedOption == 'Gallery') {
+          selectedImages = await picker.pickMultiImage();
+        } else if (selectedOption == 'Camera') {
+          final XFile? image =
+              await picker.pickImage(source: ImageSource.camera);
+          if (image != null) {
+            selectedImages.add(image);
+          }
+        }
+
+        if (selectedImages.isNotEmpty) {
+          GetIt.instance.get<ProductImageProvider>().addimages(selectedImages);
+          print("Images added");
+        }
       }
     } catch (e) {
-      print("exeption error: " + e.toString());
+      print("Exception error: " + e.toString());
     }
   }
 

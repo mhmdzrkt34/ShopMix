@@ -63,21 +63,6 @@ class SideBar extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
-              Icons.list_alt,
-              color: Colors.white,
-            ),
-            title: const Text(
-              "All Categories",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            onTap: () {
-              Navigator.pushReplacementNamed(currentcontext, "/AllCategory");
-            },
-          ),
-          ListTile(
-            leading: const Icon(
               Icons.add_to_photos_rounded,
               color: Colors.white,
             ),

@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:shopmixadmin/Controllers/ADDCategoryFormController.dart';
 import 'package:shopmixadmin/Controllers/ADDProductFormController.dart';
 import 'package:shopmixadmin/image_provider/product_image_provider.dart';
 import 'package:shopmixadmin/model_views/category_model_view.dart';
-import 'package:shopmixadmin/views/ALL_Categories.dart';
+import 'package:shopmixadmin/model_views/product_model_view.dart';
+import 'package:shopmixadmin/network/network_provider.dart';
 import 'package:shopmixadmin/views/ALL_Products.dart';
 import 'package:shopmixadmin/views/Add_Category.dart';
 import 'package:shopmixadmin/views/Add_Product.dart';
@@ -21,6 +23,7 @@ void main() async {
   GetIt.instance.registerSingleton<ADDCategoryFormController>(
       ADDCategoryFormController());
   GetIt.instance.registerSingleton<CategoryModelView>(CategoryModelView());
+  GetIt.instance.registerSingleton<ProductModelView>(ProductModelView());
   GetIt.instance
       .registerSingleton<ProductImageProvider>(ProductImageProvider());
   if (Platform.isAndroid) {
@@ -32,7 +35,12 @@ void main() async {
             projectId: "shopmix-8019f"));
   }
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => NetworkProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -47,7 +55,6 @@ class MyApp extends StatelessWidget {
         "/": (context) => dashboard(),
         "/AddProduct": (context) => addProduct(),
         "/AllProducts": (context) => allProduct(),
-        "/AllCategory": (context) => allCategories(),
         "/AddCategory": (context) => addCategory(),
         "/Setting": (context) => Setting(),
       },
