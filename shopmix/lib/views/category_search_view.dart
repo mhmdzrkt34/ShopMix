@@ -42,7 +42,7 @@ class CategorySearchView extends StatelessWidget {
       backgroundColor:value?GetIt.instance.get<ColorsDesign>().dark[0]:GetIt.instance.get<ColorsDesign>().light[0],
 
       body:SingleChildScrollView(child: Column(children: [AllProductsSelector()],),),
-        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,),
+        appBar: AppBarComponent(height: _deviceHeight*0.14,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,searchVisible: true,filter: Filter,),
 
       
       
@@ -59,7 +59,7 @@ class CategorySearchView extends StatelessWidget {
 
 Selector<CategorySearchModelView,List<ProductModel>> AllProductsSelector(){
 
-  return Selector<CategorySearchModelView,List<ProductModel>>(selector: (context,provider)=>provider.ProductsByCategory,
+  return Selector<CategorySearchModelView,List<ProductModel>>(selector: (context,provider)=>provider.filterProductsByCategory,
   
   shouldRebuild: (previous,context)=>!identical(previous, context),
   builder: (context,value,child){
@@ -87,6 +87,14 @@ Selector<CategorySearchModelView,List<ProductModel>> AllProductsSelector(){
 
 
 }
+
+
+
+void Filter(String value){
+
+  GetIt.instance.get<CategorySearchModelView>().Filter(value);
+}
+
 
 
 

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopmix/designs/colors_design.dart';
 import 'package:shopmix/modelViews/cart_model_view.dart';
 import 'package:shopmix/modelViews/favourites_model_view.dart';
@@ -46,7 +49,7 @@ class ProductComponent extends StatelessWidget {
       Stack(children: [Container(
         
         width: deviceWidth*0.35,height: deviceWidth*0.45,
-        decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(product.images[0].ImageUrl),fit: BoxFit.contain)),
+        decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(product.images.length==0?"https://longislandsportsdome.com/wp-content/uploads/2019/01/182-1826643_coming-soon-png-clipart-coming-soon-png-transparent.png": product.images[0].ImageUrl),fit: BoxFit.contain)),
         ),
         Positioned(
           left: 5,
@@ -83,7 +86,17 @@ class ProductComponent extends StatelessWidget {
           
           padding: EdgeInsets.all(10),
           child: GestureDetector(
-            onTap: (){
+            onTap: () async{
+
+              User? user=await FirebaseAuth.instance.currentUser;
+
+
+              await FirebaseFirestore.instance.collection("favourites").add({
+
+                "product_id":product.id,
+                "user_email":user!.email
+
+              });
 
               GetIt.instance.get<FavouritesModelView>().addToFavourites(product);
             },
@@ -107,7 +120,7 @@ class ProductComponent extends StatelessWidget {
         GestureDetector(
           
           onTap: (){
-            GetIt.instance<ProductDetailsModelView>().changeProduct(product);
+            GetIt.instance<ProductDetailsModelView>().getProduct(product.id);
             Navigator.pushNamed(context, "/productDetail");
             
           },
@@ -132,7 +145,41 @@ class ProductComponent extends StatelessWidget {
             Text((product.price-(product.price*product.salePercentage/100)).toString()+"\$",style: TextStyle(color: withSaleFontColor,fontSize: deviceWidth*0.04))],),
             
             GestureDetector(
-              onTap: (){
+              onTap: () async{ 
+
+
+                          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
+
+          if(cartitem.docs.isNotEmpty){
+
+                      DocumentReference docRef = cartitem.docs.first.reference;
+              await docRef.update({
+                "quantity":FieldValue.increment(1)
+              });
+
+
+
+
+          }
+          else {
+                         await FirebaseFirestore.instance.collection("cartItems").add({
+      'cart_id': prefs.get("cart_id"),
+      'product_id': product.id,
+      'quantity': 1
+    });
+
+          }
+          var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.get("cart_id").toString()).get();
+
+          DocumentReference docref=cart.reference;
+
+          await docref.update({
+            "total":FieldValue.increment((product.price-(product.price*product.salePercentage/100)))
+
+          });
+
+                
                 GetIt.instance.get<HomeModelView>().addToCart();
 
                 GetIt.instance.get<CartModelView>().addProductTocart(product);

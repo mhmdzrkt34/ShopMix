@@ -1,5 +1,6 @@
 
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +13,7 @@ import 'package:shopmix/controllers/homeBodyControllers/showing_component_contro
 import 'package:shopmix/designs/colors_design.dart';
 import 'package:shopmix/modelViews/home_body_model_view.dart';
 import 'package:shopmix/modelViews/home_model_view.dart';
+import 'package:shopmix/models/image_slider_model.dart';
 import 'package:shopmix/models/product_model.dart';
 import 'package:shopmix/providers/dark_mode_provider.dart';
 
@@ -56,7 +58,9 @@ class HomeBodyView extends StatelessWidget {
           
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [SaleZone(context),
+            children: [
+              SliderImageSelector(),
+              SaleZone(context),
           
           
           AllSaleProductSelector(context),
@@ -232,6 +236,49 @@ return
 
 
           }
+
+          Selector<HomeBodyModelView,List<ImageSliderModel>?> SliderImageSelector(){
+
+
+            return Selector<HomeBodyModelView,List<ImageSliderModel>?>(selector: (context,provider)=>provider.imageSliders,
+            shouldRebuild: (previous,next)=>!identical(previous, next),
+
+            builder: (context,value,child){
+              return SliderImage(value);
+
+
+
+            },
+            );
+          }
+
+
+            Widget SliderImage(List<ImageSliderModel>? sliderImages){
+              if(sliderImages==null){
+
+                return Center(child: CircularProgressIndicator(),);
+              }
+
+    return Container(
+       margin: EdgeInsets.only(left: 20,right: 20,top: 10),
+      child: CarouselSlider(items: sliderImages.map((item) => Container(
+        width: _deviceWidth,
+        height: _deviceHeight*0.5,
+        child:Image.network(item.imageUrl,fit: BoxFit.fill,) )).toList(), options: CarouselOptions(
+      
+        autoPlay: true,
+        aspectRatio: 2.0,
+        enlargeCenterPage: true,
+      )),
+    );
+
+
+
+    
+
+
+
+  }
 
 
 }

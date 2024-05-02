@@ -49,7 +49,7 @@ class productDetailsView extends StatelessWidget {
       backgroundColor:value?GetIt.instance.get<ColorsDesign>().dark[0]:GetIt.instance.get<ColorsDesign>().light[0],
 
       body:SingleChildScrollView(child: Column(children: [productSelector()],),),
-        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,),
+        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,searchVisible: false,filter: Filter,),
 
       
       
@@ -69,7 +69,12 @@ Selector<ProductDetailsModelView,Tuple2<ProductModel?,int>> productSelector(){
   shouldRebuild: (previous, next) =>!identical(previous.item1,next.item1) || !identical(previous.item2, next.item2) ,
   builder: (context, value, child){
 
-          return Container(
+    if (value.item1==null) {
+
+      return Center(child: CircularProgressIndicator(),);
+      
+    }
+              return Container(
     margin: EdgeInsets.only(left: 10,right: 10),
     child: Container(
       width: _deviceWidth,
@@ -81,7 +86,7 @@ Selector<ProductDetailsModelView,Tuple2<ProductModel?,int>> productSelector(){
         Stack(children: [Container(
           
           width: _deviceWidth*0.9,height: _deviceHeight*0.45,
-          decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(value.item1!.images[GetIt.instance.get<ProductDetailsModelView>().currentImageIndex].ImageUrl),fit: BoxFit.contain)),
+          decoration: BoxDecoration(image: DecorationImage(image:  NetworkImage(value.item1!.images.length==0?"https://longislandsportsdome.com/wp-content/uploads/2019/01/182-1826643_coming-soon-png-clipart-coming-soon-png-transparent.png" :  value.item1!.images[GetIt.instance.get<ProductDetailsModelView>().currentImageIndex].ImageUrl),fit: BoxFit.contain)),
           ),
           Positioned(
             left: 5,
@@ -136,7 +141,13 @@ Selector<ProductDetailsModelView,Tuple2<ProductModel?,int>> productSelector(){
 
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(children:value.item1!.images.asMap().entries.map<Widget>((e){
+            child:value.item1!.images.length==0? Container(
+                
+                margin: EdgeInsets.only(right: 10),
+              
+                width: _deviceWidth*0.2, height: _deviceWidth*0.2,decoration: BoxDecoration(
+                  border: Border.all(color: GetIt.instance.get<ColorsDesign>().light[2]),
+                  image: DecorationImage(image: NetworkImage("https://longislandsportsdome.com/wp-content/uploads/2019/01/182-1826643_coming-soon-png-clipart-coming-soon-png-transparent.png"),fit: BoxFit.contain)),): Row(children:value.item1!.images.asMap().entries.map<Widget>((e){
              
 
               return GestureDetector(
@@ -204,6 +215,8 @@ Selector<ProductDetailsModelView,Tuple2<ProductModel?,int>> productSelector(){
 
 
 
+
+
     
 
 
@@ -217,6 +230,10 @@ Selector<ProductDetailsModelView,Tuple2<ProductModel?,int>> productSelector(){
 
 
 
+void Filter(String value){
+
+  print(value);
+}
 
 
 }

@@ -12,6 +12,9 @@ class CategorySearchModelView extends ChangeNotifier {
   List<ProductModel> ProductsByCategory=[];
 
 
+ List<ProductModel> filterProductsByCategory=[];
+
+
 
   CategorySearchModelView();
 
@@ -23,6 +26,8 @@ Future<void> getProuctsByCategory(String categoryId) async {
   CategoryModel? findCategory = _findCategoryById(categories, categoryId);
 
   ProductsByCategory=List.from(findProducts(GetIt.instance.get<AllProductModelView>().products!,findCategory!)) ;
+
+  filterProductsByCategory=ProductsByCategory;
   notifyListeners();
 
 
@@ -70,4 +75,20 @@ List<ProductModel> findProducts(List<ProductModel> products, CategoryModel categ
 
   return foundProducts;
 }
+ void Filter(String value){
+
+    if(filterProductsByCategory==null){
+
+
+    }
+
+
+    else {
+
+    
+
+
+    filterProductsByCategory=List.from(ProductsByCategory!.where((element) => element.title.toUpperCase().contains(value.toUpperCase())).toList());
+    notifyListeners();}
+  }
 }

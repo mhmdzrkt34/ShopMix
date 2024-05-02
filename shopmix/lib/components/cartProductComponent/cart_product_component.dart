@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopmix/designs/colors_design.dart';
 import 'package:shopmix/modelViews/cart_model_view.dart';
 import 'package:shopmix/modelViews/home_model_view.dart';
@@ -133,11 +136,40 @@ class CartProductComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Column(children: [Row(children: [      GestureDetector(
-          onTap: (){
+          onTap: () async{
+
+                            final SharedPreferences prefs = await SharedPreferences.getInstance();
+          var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
+
+      
+
+                      DocumentReference docRef = cartitem.docs.first.reference;
+              await docRef.update({
+                "quantity":FieldValue.increment(1)
+              });
+              print(prefs.getString("cart_id"));
+
+                                   var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.getString("cart_id")).get();
+
+          DocumentReference docref=cart.reference;
+
+          await docref.update({
+            "total":FieldValue.increment((product.price-(product.price*product.salePercentage/100)))
+
+          });
+
+              
+
+              
+
+
+
+
+
             GetIt.instance.get<CartModelView>().addProductQuantity(product);
             
           },
-          child: Container(child: Icon(size: deviceWidth*0.08, Icons.arrow_upward,color: UpAndDownColor,),),),
+          child: Visibility(visible: isremoveVisible,child: Container(child: Icon(size: deviceWidth*0.08, Icons.arrow_upward,color: UpAndDownColor,),),),),
       Container(
         alignment: Alignment.center,
         width: deviceWidth*0.05,
@@ -157,13 +189,34 @@ class CartProductComponent extends StatelessWidget {
         
         Text(quantity.toString(),style: TextStyle(fontSize: deviceWidth*0.05,color: TextFormColor)),),
        GestureDetector(
-        onTap: (){
+        onTap: () async{
+          
+                            final SharedPreferences prefs = await SharedPreferences.getInstance();
+          var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
+
+      
+
+                      DocumentReference docRef = cartitem.docs.first.reference;
+              await docRef.update({
+                "quantity":FieldValue.increment(-1)
+              });
+
+                        var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.getString("cart_id")).get();
+
+          DocumentReference docref=cart.reference;
+
+          await docref.update({
+            "total":FieldValue.increment(-(product.price-(product.price*product.salePercentage/100)))
+
+          });
+
+
 
           GetIt.instance<CartModelView>().subProductquantity(product);
         },
-        child:  Container(
+        child:  Visibility(visible: isremoveVisible, child: Container(
           
-          child: Icon(size: deviceWidth*0.08, Icons.arrow_downward,color: UpAndDownColor,),),)],),
+          child: Icon(size: deviceWidth*0.08, Icons.arrow_downward,color: UpAndDownColor,),)),)],),
           Container(
             margin: EdgeInsets.only(top: 10),
             child: Text("Total:"+(quantity*(product.price-(product.price*product.salePercentage/100))).toString()+"\$",style:TextStyle(color: UpAndDownColor),),)
@@ -176,7 +229,26 @@ class CartProductComponent extends StatelessWidget {
     Visibility(
       visible: isremoveVisible,
       child: GestureDetector(
-        onTap: (){
+        onTap: () async{
+
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
+          DocumentReference docRef = cartitem.docs.first.reference;
+              await docRef.delete()
+        .then((_) => print("Document successfully deleted!"))
+        .catchError((error) => print("Failed to delete document: $error"));
+
+
+                                var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.getString("cart_id")).get();
+
+          DocumentReference docref=cart.reference;
+
+          await docref.update({
+            "total":FieldValue.increment(-((product.price-(product.price*product.salePercentage/100))*quantity))
+
+          });
+
+          
           GetIt.instance.get<CartModelView>().removeProductFromCart(product,quantity);
           GetIt.instance.get<HomeModelView>().removeCountFromCart(quantity);
         },

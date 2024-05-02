@@ -65,7 +65,7 @@ class FormFieldComponent extends StatelessWidget {
         fillColor: color,
         focusColor: focuscolor,
       ),
-      onSaved: (value) {
+      onChanged: (value) {
         _onSave!(value);
       },
       validator: (value) {

@@ -45,7 +45,7 @@ class AllNewProductsView extends StatelessWidget {
       backgroundColor:value?GetIt.instance.get<ColorsDesign>().dark[0]:GetIt.instance.get<ColorsDesign>().light[0],
 
       body:SingleChildScrollView(child: Column(children: [AllProductsSelector()],),),
-        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,),
+        appBar: AppBarComponent(height: _deviceHeight*0.14,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,searchVisible: true,filter: Filter,),
 
       
       
@@ -60,7 +60,7 @@ class AllNewProductsView extends StatelessWidget {
 
 Selector<AllNewProductModelView,List<ProductModel>?> AllProductsSelector(){
 
-  return Selector<AllNewProductModelView,List<ProductModel>?>(selector: (context,provider)=>provider.newProducts,
+  return Selector<AllNewProductModelView,List<ProductModel>?>(selector: (context,provider)=>provider.filterNewProducts,
   
   shouldRebuild: (previous,context)=>!identical(previous, context),
   builder: (context,value,child){
@@ -68,6 +68,12 @@ Selector<AllNewProductModelView,List<ProductModel>?> AllProductsSelector(){
     if(value==null){
 
       return Center(child: CircularProgressIndicator(),);
+    }
+
+        if(value.length==0){
+
+
+      return Center(child: Text("No Items Found"),);
     }
 
     return Container(width: _deviceWidth,
@@ -88,6 +94,11 @@ Selector<AllNewProductModelView,List<ProductModel>?> AllProductsSelector(){
 
 
 }
+
+void Filter(String value){
+GetIt.instance.get<AllNewProductModelView>().Filter(value);
+}
+
 
 
 

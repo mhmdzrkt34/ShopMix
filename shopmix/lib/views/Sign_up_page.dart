@@ -340,10 +340,13 @@ class Signup extends StatelessWidget {
   }
 
   String? _confirmPasswordValidate(String? value) {
+
+    print("comfirm passsword: " + value!);
+    
     if (value == null || value.isEmpty) {
       return 'Confirm password is required';
     }
-
+print("password"+ GetIt.instance<SignUpFormController>().password);
     if (value != GetIt.instance<SignUpFormController>().password) {
       return 'Passwords do not match';
     }
@@ -378,7 +381,9 @@ class Signup extends StatelessWidget {
 
   Widget _login() {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(_context, "/login");
+      },
       child: Text(
         "Login",
         style: TextStyle(

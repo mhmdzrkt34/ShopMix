@@ -77,6 +77,11 @@ Selector<CartModelView,List<CartItemsModel>> CartItemsSelector(){
 
 
 Widget cartItems(List<CartItemsModel> items){
+  
+
+  if(GetIt.instance.get<CartModelView>().cart==null){
+    return Center(child: CircularProgressIndicator(),);
+  }
 
 
   if(items.isEmpty){
@@ -95,7 +100,7 @@ Widget cartItems(List<CartItemsModel> items){
   Container(
     margin:  EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
     width: _deviceWidth,
-    child: Text("Total:"+GetIt.instance.get<CartModelView>().cart.total.toString()+"\$",style: TextStyle(color: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1],fontSize: _deviceWidth*0.05,fontWeight: FontWeight.bold),),),
+    child: Text("Total:"+GetIt.instance.get<CartModelView>().cart!.total.toString()+"\$",style: TextStyle(color: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1],fontSize: _deviceWidth*0.05,fontWeight: FontWeight.bold),),),
 
   Container(
    

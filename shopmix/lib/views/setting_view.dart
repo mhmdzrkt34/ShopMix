@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
@@ -11,10 +12,12 @@ class SettingView extends StatelessWidget {
 
   late double _deviceWidth;
   late double _deviceHeight;
+  
 
 
   @override
   Widget build(BuildContext context) {
+ 
     _deviceWidth=MediaQuery.of(context).size.width;
     _deviceHeight=MediaQuery.of(context).size.height;
 
@@ -38,8 +41,8 @@ class SettingView extends StatelessWidget {
 
       backgroundColor:value?GetIt.instance.get<ColorsDesign>().dark[0]:GetIt.instance.get<ColorsDesign>().light[0],
 
-      body:SingleChildScrollView(child: Column(children: [AccountItemContainer(),changePassword(),LogoutItemContainer(),deactivateItemContainer()],),),
-        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,),
+      body:SingleChildScrollView(child: Column(children: [AccountItemContainer(),changePassword(),LogoutItemContainer(context),deactivateItemContainer()],),),
+        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,searchVisible: false,filter: Filter,),
 
       
       
@@ -80,9 +83,27 @@ Widget AccountItemContainer(){
   );
 }
 
-Widget LogoutItemContainer(){
+Widget LogoutItemContainer(BuildContext currentContext){
 
-  return Container(
+  return GestureDetector(
+    
+    onTap: () async{
+
+        try {
+    await FirebaseAuth.instance.signOut();
+    // Navigate to the login screen (replace '/login' with your login route if different)
+     Navigator.of(currentContext).pushReplacementNamed('/login');
+  } catch (e) {
+    // If there is an error during logout, handle it here
+    // For example, show a snackbar with the error message
+    ScaffoldMessenger.of(currentContext).showSnackBar(
+      SnackBar(
+        content: Text("Error logging out: $e"),
+      ),
+    );
+  }
+    },
+    child: Container(
 
     padding: EdgeInsets.all(20),
     child: Row(
@@ -106,7 +127,7 @@ Widget LogoutItemContainer(){
       ))
 
     ],),
-  );
+  ));
 }
 
 Widget changePassword(){
@@ -166,5 +187,14 @@ Widget deactivateItemContainer(){
     ],),
   );
 }
+
+void Filter(String value){
+
+  print(value);
+}
+
+
+
+
 
 }

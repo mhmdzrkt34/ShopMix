@@ -7,6 +7,7 @@ class AllProductModelView extends ChangeNotifier {
 IProductRepository productRepository=ProductFirebase();
   
  List<ProductModel>? products;
+  List<ProductModel>? filterProducts;
 
 
   AllProductModelView(){
@@ -15,7 +16,29 @@ IProductRepository productRepository=ProductFirebase();
 
       Future<void> GetProducts(List<ProductModel>? allproducts) async{
 
-    products=allproducts;
+
+    products=List.from(allproducts!);
+    filterProducts=List.from(products!);
     notifyListeners();
+  }
+
+
+
+  
+  void Filter(String value){
+
+    if(filterProducts==null){
+
+
+    }
+
+
+    else {
+
+    
+
+
+    filterProducts=List.from(products!.where((element) => element.title.toUpperCase().contains(value.toUpperCase())).toList());
+    notifyListeners();}
   }
 }

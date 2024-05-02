@@ -43,7 +43,7 @@ class OrderMethodView extends StatelessWidget {
       backgroundColor:value?GetIt.instance.get<ColorsDesign>().dark[0]:GetIt.instance.get<ColorsDesign>().light[0],
 
       body:SingleChildScrollView(child: Column(children: [paysMethod(),ConfirmButton()],),),
-        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,),
+        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,searchVisible: false,filter: Filter,),
 
       
       
@@ -138,10 +138,19 @@ Widget ConfirmButton(){
       if(GetIt.instance.get<OrderMethodModelView>().payOnDelivery==true){
         GetIt.instance.get<OrderMethodModelView>().payOnDeliveryCLick(currentcontext);
       }
+      else {
+
+        Navigator.pushNamed(currentcontext, "/payOnlineView");
+      }
 
 
     },
   child: Text("Confirm"),),) ;
+}
+
+void Filter(String value){
+
+  print(value);
 }
 
 

@@ -7,6 +7,7 @@ import 'package:shopmix/components/buttonComponent/button_component_kazem.dart';
 import 'package:shopmix/components/logo/logo.dart';
 import 'package:shopmix/darkmode/signup_dark_provider.dart';
 import 'package:shopmix/designs/colors_design_kazem.dart';
+import 'package:shopmix/repositories/authRepository/authRepository.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -17,6 +18,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     _context = context;
     color = GetIt.instance<ColorsDesignkazem>().light["background"]!;
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
@@ -30,7 +32,7 @@ class Login extends StatelessWidget {
         selector: (context, provider) => provider.isDark,
         shouldRebuild: (previous, next) => !identical(previous, next),
         builder: (context, isDark, child) {
-          _context = context;
+         
           final Color backgroundColor = isDark
               ? GetIt.instance<ColorsDesignkazem>().dark["background"]!
               : GetIt.instance<ColorsDesignkazem>().light["background"]!;
@@ -216,7 +218,10 @@ class Login extends StatelessWidget {
 
   Widget _Sigup() {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pop(_context);
+        Navigator.pushReplacementNamed(_context, "/");
+      },
       child: Text(
         "Register",
         style: TextStyle(
@@ -351,13 +356,19 @@ class Login extends StatelessWidget {
         width: _deviceWidth * 0.2,
         height: _deviceWidth * 0.08,
         child: GestureDetector(
+          
+          
+          
           child: Align(
             alignment: Alignment.center,
             child: Image.asset(
               'assets/images/google_logo.png',
             ),
           ),
-          onTap: () {},
+          onTap: () {
+
+            GetIt.instance.get<AuthRepository>().signInWithGoogle();
+          },
         ),
       ),
     );

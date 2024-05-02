@@ -45,7 +45,7 @@ class OrderView extends StatelessWidget {
 
         OrdersWidgetSelector()
       ],),),
-        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,),
+        appBar: AppBarComponent(height: _deviceHeight*0.1,backtickenabled: true,actionsColors: GetIt.instance.get<ColorsDesign>().light[1],backgroundColor:GetIt.instance.get<ColorsDesign>().light[0] ,deviceWidth: _deviceWidth,threeTapEnable: false,searchVisible: false,filter: Filter,),
 
       
       
@@ -169,6 +169,10 @@ Widget OrderWidget(List<OrderModel>? value){
 
 
 
+}
+void Filter(String value){
+
+  print(value);
 }
 
 

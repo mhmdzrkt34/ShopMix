@@ -53,7 +53,7 @@ void addOrder(){
 
      });
 
-    OrderModel order=new OrderModel(id: generateStringId(), user_id: "1", quantity: quantity, totalprice: GetIt.instance.get<CartModelView>().cart.total);
+    OrderModel order=new OrderModel(id: generateStringId(), user_id: "1", quantity: quantity, totalprice: GetIt.instance.get<CartModelView>().cart!.total);
      
      String orderItemId=generateStringId();
        GetIt.instance.get<CartModelView>().cartItems.forEach((element) {

@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shopmix/repositories/authRepository/IAuthRepository.dart';
+import 'package:shopmix/repositories/authRepository/authRepository.dart';
 
 class SignUpFormController {
+    IAuthRepository authRepository=AuthRepository();
   SignUpFormController();
 
   final GlobalKey<FormState> key = GlobalKey<FormState>();
@@ -44,8 +50,67 @@ class SignUpFormController {
     this.username = username!;
   }
 
-  void onTap(BuildContext context) {
+  void onTap(BuildContext context) async{
     print("validaing ...");
-    if (key.currentState!.validate()) {}
+
+    if (key.currentState!.validate()) {
+
+      key.currentState!.save();
+
+      
+      User? user= await authRepository.registerWithEmailPassword(email, password,phone,username);
+
+      if(user==null){
+
+                 Fluttertoast.showToast(
+      msg: "Email already exists",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,  
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0
+    
+  );
+
+      }
+      else {
+        CollectionReference carts=FirebaseFirestore.instance.collection("carts");
+
+        await carts.add({
+
+          "email":user.email,
+          "total":0,
+
+
+        });
+
+
+
+        await
+
+                         Fluttertoast.showToast(
+      msg: "Email registered succesfully, you can now login",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,  
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 16.0
+    
+  );
+  Navigator.pushNamed(context, "/login");
+
+
+      }
+
+      
+
+
+   
+  
+
+ 
+    }
   }
 }

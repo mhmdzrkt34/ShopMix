@@ -157,6 +157,7 @@ Selector<CategoriesModelView,List<CategoryModel>> categoriesSelector(){
   return Selector<CategoriesModelView,List<CategoryModel>>(selector: (context,provider)=>provider.categories,
   shouldRebuild: (previous, next) => !identical(previous,next),
   builder: (context,value,child){
+    print("length is:"+value.length.toString());
     return Container(
 
       padding: EdgeInsets.all(10),

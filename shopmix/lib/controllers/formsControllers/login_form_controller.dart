@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shopmix/controllers/formsControllers/form_controller.dart';
+import 'package:shopmix/repositories/authRepository/IAuthRepository.dart';
+import 'package:shopmix/repositories/authRepository/authRepository.dart';
 
 
 class LoginZaraketFormController extends FormController {
+
+  IAuthRepository authRepository=AuthRepository();
 
   final GlobalKey<FormState> loginFormKey=GlobalKey<FormState>();
   late BuildContext _context;

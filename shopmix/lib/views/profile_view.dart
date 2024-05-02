@@ -20,6 +20,7 @@ class ProfileView extends StatelessWidget {
 
     return MultiProvider(providers: [
       ChangeNotifierProvider.value(value: GetIt.instance.get<ProfileModelView>()),
+      
 
     ],
     child: ScaffoldSelector()
@@ -35,7 +36,7 @@ class ProfileView extends StatelessWidget {
       return Scaffold(
 
       backgroundColor:value?GetIt.instance.get<ColorsDesign>().dark[0]:GetIt.instance.get<ColorsDesign>().light[0],
-      body: SingleChildScrollView(child: Column(children: [OrdersItem(context),paymentMethodItem()],),),
+      body: SingleChildScrollView(child: Column(children: [OrdersItem(context),paymentMethodItem(context),Locations(context)],),),
     );
       
 
@@ -81,9 +82,17 @@ Widget OrdersItem(BuildContext context){
   ));
 }
 
-Widget paymentMethodItem(){
+Widget paymentMethodItem(BuildContext context){
 
-  return Container(
+  return
+  
+    GestureDetector(
+
+      onTap: (){
+        Navigator.pushNamed(context, "/CreditCartsView");
+      },
+      child: 
+   Container(
 
     padding: EdgeInsets.all(20),
     child: Row(
@@ -107,8 +116,50 @@ Widget paymentMethodItem(){
       ))
 
     ],),
-  );
+  ),
+    );
 }
+
+
+Widget Locations(BuildContext context){
+
+  return
+  
+    GestureDetector(
+
+      onTap: (){
+        Navigator.pushNamed(context, "/locationsView");
+       
+      },
+      child: 
+   Container(
+
+    padding: EdgeInsets.all(20),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+    
+      Container(
+        margin: EdgeInsets.only(right: 10),
+        child: Icon( 
+          color: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[5]:GetIt.instance.get<ColorsDesign>().light[5],
+          Icons.location_on,size: _deviceWidth*0.1,),),
+          Expanded(child:       Container(
+       
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          
+          children: [Container(child: Text("Locations",style: TextStyle(fontSize: _deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1],),),),
+        Container(child: Text("View,Add and Delete Locations",style: TextStyle(color: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[5]:GetIt.instance.get<ColorsDesign>().light[5],fontSize: _deviceWidth*0.04),),)
+        ],),
+      ))
+
+    ],),
+  ),
+    );
+}
+
 
   
 }
