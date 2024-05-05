@@ -9,14 +9,16 @@ class TextAreaComponent extends StatelessWidget {
   final Color? focuscolor;
   final bool ispassword;
   final int? maxLength;
+  final String? defaultValue;
 
   TextAreaComponent(this._validate, this._onSave, this._label, this.color,
       this.focuscolor, this.ispassword, this.maxLength,
-      [this._icon]);
+      [this._icon, this.defaultValue]);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: defaultValue ?? null,
       obscureText: ispassword,
       maxLines: null,
       decoration: InputDecoration(

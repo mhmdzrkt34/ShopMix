@@ -3,14 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'package:shopmixadmin/components/App_Bar.dart';
+import 'package:shopmixadmin/components/App_Bar_search.dart';
 
 import 'package:shopmixadmin/components/Side_Bar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:shopmixadmin/components/logo/logo.dart';
 import 'package:provider/provider.dart';
 import 'package:shopmixadmin/model_views/product_model_view.dart';
 import 'package:shopmixadmin/models/product.dart';
+import 'package:shopmixadmin/views/Edit_Product.dart';
 
 class allProduct extends StatelessWidget {
   allProduct({super.key});
@@ -33,7 +34,7 @@ class allProduct extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        appBar: AdminAppBar(_deviceHight, _deviceWidth, "ALL Products"),
+        appBar: AdminAppBarSearch(_deviceHight, _deviceWidth, "ALL Products"),
         drawer: SideBar(context),
         body: _maincolumn(),
       ),
@@ -103,6 +104,10 @@ class allProduct extends StatelessWidget {
   }
 
   Widget _buildProductItem(ProductModel product) {
+    double discountedPrice =
+        product.price - (product.price * (product.salePercentage / 100));
+    bool onSale = product.salePercentage > 0;
+
     return Card(
       elevation: 3,
       margin: EdgeInsets.symmetric(vertical: 8),
@@ -123,7 +128,20 @@ class allProduct extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: () {},
+                  onPressed: () {
+                    GetIt.instance<ProductModelView>().deleteDocument(product);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    Navigator.push(
+                      _context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProduct(product),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -141,37 +159,41 @@ class allProduct extends StatelessWidget {
                       clipBehavior: Clip.hardEdge,
                       alignment: AlignmentDirectional.topEnd,
                       children: [
-                        CachedNetworkImage(
+                        Image.network(
+                          product.images[index].ImageUrl,
                           width: 200,
                           height: 160,
-                          imageUrl: product.images[index].ImageUrl,
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.fill,
-                                colorFilter: ColorFilter.mode(
-                                  Colors.red,
-                                  BlendMode.colorBurn,
+                          fit: BoxFit.fill,
+                          color: Colors.red,
+                          colorBlendMode: BlendMode.colorBurn,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
                                 ),
+                              );
+                            }
+                          },
+                          errorBuilder: (BuildContext context, Object error,
+                              StackTrace? stackTrace) {
+                            return Container(
+                              width: 160,
+                              height: 120,
+                              color: Colors.grey,
+                              child: const Icon(
+                                Icons.error,
+                                color: Colors.white,
                               ),
-                            ),
-                          ),
-                          placeholder: (context, url) => Image.asset(
-                            "assets/images/placeholder_image.png",
-                            width: 160,
-                            height: 120,
-                            fit: BoxFit.cover,
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            width: 160,
-                            height: 120,
-                            color: Colors.grey,
-                            child: const Icon(
-                              Icons.error,
-                              color: Colors.white,
-                            ),
-                          ),
+                            );
+                          },
                         ),
                         IconButton(
                           icon: Icon(Icons.share_outlined),
@@ -195,15 +217,73 @@ class allProduct extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8),
+            onSale
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Price: \$${product.price.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                      Text(
+                        'Discounted Price: \$${discountedPrice.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  )
+                : Text(
+                    'Price: \$${product.price.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+            SizedBox(height: 8),
+            product.quantiy > 0
+                ? Text(
+                    'Quantity: ${product.quantiy}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  )
+                : Text(
+                    'Out of Stock',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.red,
+                    ),
+                  ),
             Text(
-              '\$${product.price.toStringAsFixed(2)}',
+              'ID: ${product.id}',
               style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
+                color: Colors.black,
               ),
             ),
-            SizedBox(height: 8),
+            Text(
+              'Is New: ${product.isNew ? 'Yes' : 'No'}',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              'Sale Percentage: ${product.salePercentage}%',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
           ],
         ),
       ),
