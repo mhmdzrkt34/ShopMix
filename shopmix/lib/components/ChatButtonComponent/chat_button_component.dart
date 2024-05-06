@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -89,12 +92,24 @@ Row(
                 key: key,
                 child: Column(children: [Container(
                   
-                  child: TextFormField(
+                  child:
+                  Selector<HomeModelView,String>(selector: (context,provider)=>provider.message,
+                    shouldRebuild: (previous,next)=>!identical(previous, next),
+                    builder: (context,value,child){
+
+                      return               TextFormField(
+                        controller: GetIt.instance.get<scrlController>().textformcontroller,
+                    
                     style: TextStyle(color: FormColor),
                     decoration: InputDecoration(
                       hintStyle: TextStyle(color: formHintColor),
                       
                       hintText: "Message",border: InputBorder.none),
+
+                      onChanged: (value){
+                        GetIt.instance.get<scrlController>().textformcontroller.text=value;
+
+                      },
                     
                   
                    onSaved: (value){
@@ -106,18 +121,35 @@ Row(
                     return result?null:"empty message";
                   
                    },
-                  ),
+                  );
+                    },
+                    ),
+                  
+                  
+     
                 )],)),
 ), 
   
 
  GestureDetector(
-  onTap: (){
+  onTap: () async{
 
     if(key.currentState!.validate()){
 
       key.currentState!.save();
-      GetIt.instance.get<HomeModelView>().addChat(mes);
+      User? user=FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance.collection("chats").add({
+
+        "date":DateTime.timestamp(),
+        "email":user!.email,
+        "message":mes,
+        "type":"sender"
+      });
+
+
+      GetIt.instance.get<HomeModelView>().addChat();
+      mes="";
+      GetIt.instance.get<scrlController>().textformcontroller.clear();
      
 
       
@@ -133,7 +165,9 @@ Row(
         
 
 
-        });
+        },
+        );
+        GetIt.instance.get<HomeModelView>().addChat();
 
 
 

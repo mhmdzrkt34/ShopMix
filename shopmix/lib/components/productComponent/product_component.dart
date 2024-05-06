@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopmix/designs/colors_design.dart';
@@ -42,15 +43,29 @@ class ProductComponent extends StatelessWidget {
   Widget build(BuildContext context) {
 
       return Container(
+        
     margin: EdgeInsets.only(left: 10,right: 10),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-      Stack(children: [Container(
+      Stack(children: [Stack(children: [Container(
         
         width: deviceWidth*0.35,height: deviceWidth*0.45,
         decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(product.images.length==0?"https://longislandsportsdome.com/wp-content/uploads/2019/01/182-1826643_coming-soon-png-clipart-coming-soon-png-transparent.png": product.images[0].ImageUrl),fit: BoxFit.contain)),
         ),
+        Positioned(
+          top: deviceWidth*0.45/2.2,
+          left: 0,
+          right: 0,
+          
+          child: Container(
+            alignment: Alignment.center,
+            color: Colors.red,
+            child: Visibility(
+              visible: product.quantiy==0,
+              child: Text("OUT OF STOCK",style: TextStyle(backgroundColor: Colors.red, color: Colors.white,fontSize: 18,fontWeight: FontWeight.w900),)),
+          ))
+        ],) ,
         Positioned(
           left: 5,
           top: 5,
@@ -90,13 +105,21 @@ class ProductComponent extends StatelessWidget {
 
               User? user=await FirebaseAuth.instance.currentUser;
 
+              var data=(await FirebaseFirestore.instance.collection("favourites").where("user_email",isEqualTo: user!.email).where("product_id",isEqualTo: product.id).get()).docs;
 
-              await FirebaseFirestore.instance.collection("favourites").add({
+               if(data.isEmpty){
+
+                              await FirebaseFirestore.instance.collection("favourites").add({
 
                 "product_id":product.id,
                 "user_email":user!.email
 
               });
+
+               }
+
+
+
 
               GetIt.instance.get<FavouritesModelView>().addToFavourites(product);
             },
@@ -142,13 +165,15 @@ class ProductComponent extends StatelessWidget {
                 children: [Visibility(
               visible: product.salePercentage>0?true:false,
               child: Text(product.price.toString()+"\$",style: TextStyle(color: beforSaleFontColor,decoration: TextDecoration.lineThrough,fontSize: deviceWidth*0.03),)),
-            Text((product.price-(product.price*product.salePercentage/100)).toString()+"\$",style: TextStyle(color: withSaleFontColor,fontSize: deviceWidth*0.04))],),
+            Text((product.price-(product.price*product.salePercentage/100)).toStringAsFixed(2)+"\$",style: TextStyle(color: withSaleFontColor,fontSize: deviceWidth*0.04))],),
             
             GestureDetector(
               onTap: () async{ 
 
+                if(product.quantiy!=0){
 
-                          final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                            final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                            print(prefs.get("cart_id"));
           var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
 
           if(cartitem.docs.isNotEmpty){
@@ -183,6 +208,23 @@ class ProductComponent extends StatelessWidget {
                 GetIt.instance.get<HomeModelView>().addToCart();
 
                 GetIt.instance.get<CartModelView>().addProductTocart(product);
+                }
+
+                else {
+
+                     Fluttertoast.showToast(
+        msg: "This product cant be added to cart since it is out of stock",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+                  
+                }
+                
+
+
+
               },
               child: Container(child: Icon(Icons.add_shopping_cart,color: addToCartColor,),),
             )

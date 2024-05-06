@@ -84,6 +84,8 @@ Widget OrderWidget(List<OrderModel>? value){
   if(value == null){
     return Center(child: CircularProgressIndicator(),);
   }
+
+
        return Container(
     width: _deviceWidth,
     margin: EdgeInsets.all(10),
@@ -120,7 +122,7 @@ Widget OrderWidget(List<OrderModel>? value){
             
               Container(child: Text("order Id:"+value[index].id,style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
               Container(child: Text("number of items:"+value[index].quantity.toString(),style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
-              Container(child: Text("Total price:"+value[index].totalprice.toString()+"\$",style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
+              Container(child: Text("Total price:"+value[index].totalprice.toStringAsFixed(3)+"\$",style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
             
               Container(width: _deviceWidth,
               

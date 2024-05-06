@@ -1,6 +1,8 @@
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shopmix/modelViews/cart_model_view.dart';
 import 'package:shopmix/modelViews/order_model_view.dart';
@@ -31,9 +33,9 @@ class OrderMethodModelView extends ChangeNotifier {
 
   void payOnDeliveryCLick(BuildContext context){
 
-    GetIt.instance.get<OrderModelView>().addOrder();
+    GetIt.instance.get<OrderModelView>().addOrder(context);
 
-    Navigator.pushNamed(context, "/orders");
+ 
 
 
 

@@ -40,6 +40,7 @@ class Signup extends StatelessWidget {
           return Scaffold(
             backgroundColor: backgroundColor,
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: Text(
                 "Sign Up",
                 style: TextStyle(
@@ -382,7 +383,7 @@ print("password"+ GetIt.instance<SignUpFormController>().password);
   Widget _login() {
     return MaterialButton(
       onPressed: () {
-        Navigator.pushNamed(_context, "/login");
+        Navigator.pushReplacementNamed(_context, "/login");
       },
       child: Text(
         "Login",

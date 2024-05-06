@@ -22,6 +22,7 @@ import 'package:shopmix/modelViews/all_sales_model_view.dart';
 import 'package:shopmix/modelViews/categories_model_view.dart';
 import 'package:shopmix/modelViews/category_search_model_view.dart';
 import 'package:shopmix/modelViews/credit_carts_model_view.dart';
+import 'package:shopmix/modelViews/currency_pay_model_view.dart';
 import 'package:shopmix/modelViews/favourites_model_view.dart';
 import 'package:shopmix/modelViews/home_body_model_view.dart';
 import 'package:shopmix/modelViews/home_model_view.dart';
@@ -40,12 +41,14 @@ import 'package:shopmix/models/order_model.dart';
 import 'package:shopmix/providers/dark_mode_provider.dart';
 import 'package:shopmix/repositories/authRepository/authRepository.dart';
 import 'package:shopmix/views/LocationSelectionScreen.dart';
+
 import 'package:shopmix/views/add_credit_cart_view.dart';
 import 'package:shopmix/views/all_new_products_view.dart';
 import 'package:shopmix/views/all_product_view.dart';
 import 'package:shopmix/views/all_sales_view.dart';
 import 'package:shopmix/views/category_search_view.dart';
 import 'package:shopmix/views/credit_carts_view.dart';
+import 'package:shopmix/views/currency_pay_view.dart';
 import 'package:shopmix/views/home_view.dart';
 import 'package:shopmix/views/locations_view.dart';
 import 'package:shopmix/views/login_view.dart';
@@ -53,8 +56,10 @@ import 'package:shopmix/views/map_view.dart';
 import 'package:shopmix/views/order_method_view.dart';
 import 'package:shopmix/views/order_view.dart';
 import 'package:shopmix/views/pay_online_view.dart';
+import 'package:shopmix/views/phone_otp_view.dart';
 import 'package:shopmix/views/product_details_view.dart';
 import 'package:shopmix/views/register_view.dart';
+import 'package:shopmix/views/reset_Password_view.dart';
 import 'package:shopmix/views/setting_view.dart';
 import 'package:shopmix/Controllers/LoginFormController.dart';
 import 'package:shopmix/Controllers/SignUpFormController.dart';
@@ -77,7 +82,7 @@ WidgetsFlutterBinding.ensureInitialized();
   }
 
   FirebaseAuth auth=FirebaseAuth.instance;
-    final String initialRoute = auth.currentUser != null ? "/home" : "/";
+    final String initialRoute = auth.currentUser != null && auth.currentUser!.emailVerified==true ? "/home" : "/";
 
 
   /*WidgetsFlutterBinding.ensureInitialized();
@@ -147,6 +152,8 @@ GetIt.instance.registerSingleton<LoginZaraketFormController>(LoginZaraketFormCon
   GetIt.instance.registerSingleton<CreditCartsModelView>(CreditCartsModelView());
   GetIt.instance.registerSingleton<AddCreditCartModelView>(AddCreditCartModelView());
   GetIt.instance.registerSingleton<LocationsModelView>(LocationsModelView());
+  GetIt.instance.registerSingleton<CurrencyPayModelView>(CurrencyPayModelView());
+  
   
 
   GetIt.instance
@@ -161,9 +168,14 @@ GetIt.instance.registerSingleton<LoginZaraketFormController>(LoginZaraketFormCon
 
 
       
-    if(auth.currentUser!=null){
+    if(auth.currentUser!=null && auth.currentUser!.emailVerified==true){
       GetIt.instance.get<CartModelView>().fetchCarts();
       GetIt.instance.get<FavouritesModelView>().fetchFavourites();
+      GetIt.instance.get<OrderModelView>().fetchOrders();
+
+       GetIt.instance.get<HomeModelView>().getChats();
+
+       GetIt.instance.get<LocationsModelView>().fetchLocations();
       
     }
 
@@ -201,7 +213,11 @@ class MyApp extends StatelessWidget {
         "/addCreditCartView":(context)=>AddCreditCartView(),
         "/payOnlineView":(context)=>PayOnlineView(),
         "/locationsView":(context)=>LocationsView(),
-        "/locationSelectionView":(context)=>LocationSelectionScreen()
+        "/locationSelectionView":(context)=>LocationSelectionScreen(),
+        "/currencypayview":(context)=>CurrencyPayView(),
+        "/resetPasswordView":(context)=>ResetPasswordView(),
+       
+       
       },
 
     );

@@ -34,7 +34,7 @@ class ChatMessageComponent extends StatelessWidget {
                          margin: EdgeInsets.only(top: 10),
                   width: deviceWidth,
       child: Row(
-                      mainAxisAlignment: chat.type=="reciever"? MainAxisAlignment.start:MainAxisAlignment.end,
+                      mainAxisAlignment: chat.type=="receiver"? MainAxisAlignment.start:MainAxisAlignment.end,
                       children: [
                                  Container(
                                    margin: EdgeInsets.only(right: 2),
@@ -49,14 +49,14 @@ class ChatMessageComponent extends StatelessWidget {
                         Column(children: [ 
                           Container(
                             width: deviceWidth*0.45,
-                            child: Text(chat.type=="reciever"?"Admin": chat.user.Name,style: TextStyle(color: NameColor),),)
+                            child: Text(chat.type=="receiver"?"Admin": chat.email,style: TextStyle(color: NameColor),),)
                           
                           ,                         Container(
                                
                                 width: deviceWidth*0.45,
                                 padding: EdgeInsets.all(10),
                                 child: Text(chat.message,style: TextStyle(color: MessageColor)),
-                                color: chat.type=="reciever"?Colors.red:Colors.green,
+                                color: chat.type=="receiver"?Colors.red:Colors.green,
                                 
                               )
 

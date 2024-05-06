@@ -85,12 +85,14 @@ class SignUpFormController {
 
         });
 
+        await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+
 
 
         await
 
                          Fluttertoast.showToast(
-      msg: "Email registered succesfully, you can now login",
+      msg: "Email registered succesfully, we have sended you a verification email you need to verify before you login",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,  
       timeInSecForIosWeb: 1,
@@ -99,7 +101,7 @@ class SignUpFormController {
       fontSize: 16.0
     
   );
-  Navigator.pushNamed(context, "/login");
+  Navigator.pushReplacementNamed(context, "/login");
 
 
       }

@@ -1,5 +1,7 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shopmix/Seeding/seeding.dart';
@@ -20,12 +22,12 @@ import 'package:shopmix/views/cart_view.dart';
 class HomeModelView extends ChangeNotifier {
 
   
-
+    int ii=-1;
 
   IChatRepository chatRepository=ChatApi();
 
   HomeModelView(){
-    getChats();
+    
   }
 
 
@@ -47,6 +49,7 @@ class HomeModelView extends ChangeNotifier {
   int currentPageIndex=0;
 
   int cartItems=0;
+  String message="";
   
 
   
@@ -98,16 +101,54 @@ class HomeModelView extends ChangeNotifier {
 
   Future<void> getChats() async{
 
-    chats=await chatRepository.getChats();
 
-    notifyListeners();
+    
+    User? user=await FirebaseAuth.instance.currentUser;
+
+    
+    
+    
+    FirebaseFirestore.instance.collection("chats"). where("email",isEqualTo: user!.email).snapshots().listen((snapshots) {
+      List<ChatModel> chatts=[];
+
+      var data=snapshots.docs;
+      print("firestoreLength:"+data.length.toString());
+
+
+      for(var item in data){
+        
+
+        ChatModel ch=ChatModel(id: item.id, email: user!.email!, type: item['type'], message: item['message'], date: item['date'].toDate());
+        print(ch.date.toString()+""+ch.id+""+ch.email+""+ch.message+""+ch.type);
+      
+        chatts.add(ch);
+      }
+      chatts.sort((a,b)=>a.date.compareTo(b.date));
+      chats=List.from(chatts);
+      print("length "+chats!.length.toString());
+      notifyListeners();
+      if(ii<=0){
+
+      }
+      else {
+ addChat();
+
+      }
+       ii++;
+     
+
+     });
+
+    
+
+
+
+   
   }
 
-  void addChat(String mes){
+  void addChat(){
 
-    chats!.add(new ChatModel(id: "213312312", user: GetIt.instance.get<Seeding>().userMod, type: "sender", message: mes, date: DateTime.now()));
-    chats=List.from(chats!);
-    notifyListeners();
+
 
     WidgetsBinding.instance.addPostFrameCallback((_) { 
 
@@ -127,6 +168,18 @@ class HomeModelView extends ChangeNotifier {
     cartItems=index;
     notifyListeners();
 
+
+  }
+
+  void clearMEssage(){
+    message="";
+    notifyListeners();
+  }
+
+  void changeValue(String value){
+
+    message=value;
+    notifyListeners();
 
   }
 

@@ -3,7 +3,7 @@ import 'package:shopmix/models/order_items_model.dart';
 class OrderModel {
 
   late String id;
-  late String user_id;
+  late String email;
 
   late int quantity;
 
@@ -12,8 +12,9 @@ class OrderModel {
 
 
   List<OrderItems> items=[];
+  DateTime date;
 
-  OrderModel({required this.id,required this.user_id,required this.quantity,required this.totalprice});
+  OrderModel({required this.id,required this.email,required this.quantity,required this.totalprice,required this.date});
 
 
 

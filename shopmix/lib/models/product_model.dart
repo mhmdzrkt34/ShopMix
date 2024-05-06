@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:shopmix/models/product_image_model.dart';
 
 class ProductModel {
@@ -18,11 +19,13 @@ class ProductModel {
   late int quantiy;
 
 
-  ProductModel({required this.id,required this.isNew,required this.salePercentage,required this.title,required this.price,required this.images,required this.description,required this.category_id});
+  ProductModel({required this.id,required this.isNew,required this.salePercentage,required this.title,required this.price,required this.images,required this.description,required this.category_id,required this.quantiy});
 
 
 
  static Future<ProductModel> FromJson(Map<String,dynamic> json) async{
+
+
   
 
 
@@ -34,6 +37,7 @@ class ProductModel {
     double salePercentagee=json["salePercent"].toDouble();
     Timestamp timestamp = json['created_time'];
     DateTime createdTime = timestamp.toDate();
+      print("productIdd:"+idd);
 
     List<ProductImageModel> imagess=[];
 
@@ -60,11 +64,13 @@ class ProductModel {
         imagess.add(ProductImageModel(Id: doc.id, product_id: data['product_id'], ImageUrl: data['ImageUrl']));
         
         }
+       
+        
   }).catchError((error) {
     print("Error fetching product images: $error");
   });
 
-  return ProductModel(id: idd, isNew: issNew, salePercentage: salePercentagee, title: titlee, price: pricee, images: imagess, description: descriptionn, category_id: category_idd);
+  return ProductModel(id: idd, isNew: issNew, salePercentage: salePercentagee, title: titlee, price: pricee, images: imagess, description: descriptionn, category_id: category_idd,quantiy: quantiyy);
     
   
  

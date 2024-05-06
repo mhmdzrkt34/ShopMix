@@ -17,8 +17,8 @@ IProductRepository productRepository=ProductFirebase();
       Future<void> GetProducts(List<ProductModel>? allproducts) async{
 
 
-    products=List.from(allproducts!);
-    filterProducts=List.from(products!);
+    products=allproducts;
+    filterProducts=allproducts;
     notifyListeners();
   }
 

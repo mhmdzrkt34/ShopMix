@@ -41,6 +41,8 @@ class Login extends StatelessWidget {
             child: Scaffold(
               backgroundColor: backgroundColor,
               appBar: AppBar(
+                automaticallyImplyLeading: false,
+
                 title: Text(
                   "Login",
                   style: TextStyle(
@@ -219,7 +221,7 @@ class Login extends StatelessWidget {
   Widget _Sigup() {
     return MaterialButton(
       onPressed: () {
-        Navigator.pop(_context);
+        
         Navigator.pushReplacementNamed(_context, "/");
       },
       child: Text(
@@ -243,7 +245,10 @@ class Login extends StatelessWidget {
       child: Row(
         children: [
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+
+              Navigator.pushReplacementNamed(_context, "/resetPasswordView");
+            },
             child: Text(
               "Forget Password",
               style: TextStyle(

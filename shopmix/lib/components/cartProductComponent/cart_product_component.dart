@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopmix/designs/colors_design.dart';
+import 'package:shopmix/modelViews/all_product_model_view.dart';
 import 'package:shopmix/modelViews/cart_model_view.dart';
 import 'package:shopmix/modelViews/home_model_view.dart';
 import 'package:shopmix/modelViews/product_details_model_view.dart';
@@ -114,8 +116,8 @@ class CartProductComponent extends StatelessWidget {
               
               children: [Visibility(
             visible: product.salePercentage>0?true:false,
-            child: Text(product.price.toString()+"\$",style: TextStyle(color: beforSaleFontColor,decoration: TextDecoration.lineThrough,fontSize: deviceWidth*0.03),)),
-          Text((product.price-(product.price*product.salePercentage/100)).toString()+"\$",style: TextStyle(color: withSaleFontColor,fontSize: deviceWidth*0.03))],),
+            child: Text(product.price.toStringAsFixed(2)+"\$",style: TextStyle(color: beforSaleFontColor,decoration: TextDecoration.lineThrough,fontSize: deviceWidth*0.03),)),
+          Text((product.price-(product.price*product.salePercentage/100)).toStringAsFixed(2)+"\$",style: TextStyle(color: withSaleFontColor,fontSize: deviceWidth*0.03))],),
           
 
           ],),
@@ -141,9 +143,9 @@ class CartProductComponent extends StatelessWidget {
                             final SharedPreferences prefs = await SharedPreferences.getInstance();
           var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
 
-      
+          if(GetIt.instance.get<AllProductModelView>().products!.firstWhere((element) => element.id==product.id).quantiy>quantity){
 
-                      DocumentReference docRef = cartitem.docs.first.reference;
+                                  DocumentReference docRef = cartitem.docs.first.reference;
               await docRef.update({
                 "quantity":FieldValue.increment(1)
               });
@@ -167,6 +169,21 @@ class CartProductComponent extends StatelessWidget {
 
 
             GetIt.instance.get<CartModelView>().addProductQuantity(product);
+
+          }
+          else {
+               Fluttertoast.showToast(
+        msg: "you cant add more there is no more in the stock",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+          }
+
+      
+
+
             
           },
           child: Visibility(visible: isremoveVisible,child: Container(child: Icon(size: deviceWidth*0.08, Icons.arrow_upward,color: UpAndDownColor,),),),),
@@ -190,6 +207,7 @@ class CartProductComponent extends StatelessWidget {
         Text(quantity.toString(),style: TextStyle(fontSize: deviceWidth*0.05,color: TextFormColor)),),
        GestureDetector(
         onTap: () async{
+          if(quantity>1){
           
                             final SharedPreferences prefs = await SharedPreferences.getInstance();
           var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
@@ -209,6 +227,7 @@ class CartProductComponent extends StatelessWidget {
             "total":FieldValue.increment(-(product.price-(product.price*product.salePercentage/100)))
 
           });
+          }
 
 
 
@@ -219,7 +238,7 @@ class CartProductComponent extends StatelessWidget {
           child: Icon(size: deviceWidth*0.08, Icons.arrow_downward,color: UpAndDownColor,),)),)],),
           Container(
             margin: EdgeInsets.only(top: 10),
-            child: Text("Total:"+(quantity*(product.price-(product.price*product.salePercentage/100))).toString()+"\$",style:TextStyle(color: UpAndDownColor),),)
+            child: Text("Total:"+(quantity*(product.price-(product.price*product.salePercentage/100))).toStringAsFixed(3)+"\$",style:TextStyle(color: UpAndDownColor),),)
           ],)
 
 

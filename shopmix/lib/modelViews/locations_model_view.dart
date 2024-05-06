@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopmix/models/location_model.dart';
 
@@ -43,13 +45,55 @@ class LocationsModelView extends ChangeNotifier {
 
     }
     else {
+      if(locations.where((element) => element.defaultLocation==true).toList().length==0){
+        locations.firstWhere((element) => element.id==locationId).defaultLocation=true;
+
+      }
+      else {
     locations.firstWhere((element) => element.defaultLocation==true).defaultLocation=false;
     locations.firstWhere((element) => element.id==locationId).defaultLocation=true;
+      }
  
 
     }
 
     locations=List.from(locations);
     notifyListeners();
+  }
+
+
+
+  Future<void> fetchLocations() async{
+    
+    List<LocationModel> locationsList=[];
+
+    User? user=FirebaseAuth.instance.currentUser;
+
+    var locationsFirebase=(await FirebaseFirestore.instance.collection("locations").where("email",isEqualTo: user!.email).get()).docs;
+
+
+    for(var item in locationsFirebase){
+
+      Map<String,dynamic> locationJson=item.data() as Map<String,dynamic>;
+
+
+      locationJson["id"]=item.id;
+
+      LocationModel locModel=LocationModel.FromJson(locationJson);
+
+      locationsList.add(locModel);
+
+
+
+
+
+
+
+    }
+
+    locations=List.from(locationsList);
+    notifyListeners();
+
+
   }
 }

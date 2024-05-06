@@ -107,6 +107,17 @@ Selector<OrderMethodModelView,bool> paysMethod(){
     ),
     ),
 
+   GestureDetector(onTap: (){
+    Navigator.pushNamed(context, "/currencypayview");
+
+
+   },
+   child:  Container(
+      width: _deviceWidth,
+      child: Text("*pay using LitCoin Currencyd (This feature is in demo)",style: TextStyle(color: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1],decoration: TextDecoration.underline,),),),)
+
+    
+
     
     
     ],),

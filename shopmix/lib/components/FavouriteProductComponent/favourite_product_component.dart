@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopmix/designs/colors_design.dart';
@@ -127,7 +128,9 @@ Color favouriteIconColor=GetIt.instance.get<ColorsDesign>().light[2];
           GestureDetector(
             onTap: () async{
 
-                                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                if(product.quantiy!=0){
+
+                                            final SharedPreferences prefs = await SharedPreferences.getInstance();
           var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
 
           if(cartitem.docs.isNotEmpty){
@@ -149,9 +152,7 @@ Color favouriteIconColor=GetIt.instance.get<ColorsDesign>().light[2];
     });
 
           }
-
-
-                var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.get("cart_id").toString()).get();
+          var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.get("cart_id").toString()).get();
 
           DocumentReference docref=cart.reference;
 
@@ -160,8 +161,24 @@ Color favouriteIconColor=GetIt.instance.get<ColorsDesign>().light[2];
 
           });
 
-              GetIt.instance.get<HomeModelView>().addToCart();
-             GetIt.instance.get<CartModelView>().addProductTocart(product);
+                
+                GetIt.instance.get<HomeModelView>().addToCart();
+
+                GetIt.instance.get<CartModelView>().addProductTocart(product);
+                }
+
+                else {
+
+                     Fluttertoast.showToast(
+        msg: "This product cant be added to cart since it is out of stock",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+                  
+                }
+                
             },
             child: Container(child: Icon(Icons.add_shopping_cart,color:addToCartColor,),),
           )

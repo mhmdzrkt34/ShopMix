@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart'; // Import geocoding package
 import 'package:get_it/get_it.dart';
@@ -100,14 +102,53 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: FloatingActionButton(
-                onPressed: () {
+                onPressed: () async{
                   if (selectedLocation != null) {
+                     DocumentReference? docRef;
                     
                     // Handle selected location (navigation, saving, etc.)
                     // For example:
                     // - Navigate back with the selected location
+                    User? user=FirebaseAuth.instance.currentUser;
 
-                    LocationModel location=LocationModel(user: GetIt.instance.get<Seeding>().userMod, langitude: selectedLocation!.longitude, latitude: selectedLocation!.latitude, user_id: GetIt.instance.get<Seeding>().userMod.id);
+
+                    CollectionReference<Map<String, dynamic>> locationCollection = FirebaseFirestore.instance.collection("locations");
+                    Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection("locations").where("email", isEqualTo: user!.email);
+                    QuerySnapshot<Map<String, dynamic>> snapshot = await query.get();
+
+                    if(snapshot.docs.length==0){
+                      
+                      
+                       docRef=await locationCollection.add({
+                        "defaultLocation":true,
+                        "email":user!.email,
+                        "langitude":selectedLocation!.longitude,
+                        "lattitude":selectedLocation!.latitude
+
+                        
+
+                      });
+                    }
+                    else {
+
+                                             docRef=await locationCollection.add({
+                        "defaultLocation":false,
+                        "email":user!.email,
+                        "langitude":selectedLocation!.longitude,
+                        "lattitude":selectedLocation!.latitude
+
+                        
+
+                      });
+
+                    }
+                    Map<String,dynamic> jsonLocAdded=(await docRef.get()).data() as Map<String,dynamic>;
+
+                    
+
+
+                    LocationModel location=LocationModel(id: docRef.id, email: user!.email!, langitude: selectedLocation!.longitude, latitude: selectedLocation!.latitude,defaultLocation:jsonLocAdded["defaultLocation"]);
+                    
                     GetIt.instance.get<LocationsModelView>().addLocation(location);
                     Navigator.pop(context);
                   }

@@ -32,7 +32,7 @@ class Seeding {
 
 
   void SeedData(){
-
+/*
 
       images.add(new ProductImageModel(Id: "123", product_id: "1", ImageUrl: "https://www.pngall.com/wp-content/uploads/2016/04/Keyboard-Download-PNG.png"));
     images.add(new ProductImageModel(Id: "1234", product_id: "1",  ImageUrl: "https://pluspng.com/img-png/laptop-png-laptop-notebook-png-image-image-6746-1153.png"));
@@ -60,9 +60,9 @@ class Seeding {
     categoris[1].toggleVisibility();
     categoris[2].toggleVisibility();
 
-   orders.add(new OrderModel(id: "1", user_id: "1", quantity: 4, totalprice: 1950));
+   orders.add(new OrderModel(id: "1", email: "1", quantity: 4, totalprice: 1950));
 
-   orders.add(new OrderModel(id: "2", user_id: "1", quantity: 4, totalprice: 1950));
+   orders.add(new OrderModel(id: "2", email: "1", quantity: 4, totalprice: 1950));
 
    orders[0].items.add(OrderItems(id: "2", product_id: "1", quantity: 2, product: products[0], name: "keyboard"));
    orders[0].items.add(OrderItems(id: "3", product_id: "2", quantity: 1, product: products[1], name: "laptop"));
@@ -73,16 +73,16 @@ class Seeding {
    orders[1].items.add(OrderItems(id: "7", product_id: "3", quantity: 1,product: products[2], name: "ps5"));
 
    
-   chats.add(new ChatModel(id: "1", user: userMod, type: "sender", message: "hey", date: DateTime.now()));
+   chats.add(new ChatModel(id: "1", email: userMod.Email, type: "sender", message: "hey", date: DateTime.now()));
 
-   chats.add(new ChatModel(id: "2", user: userMod, type: "sender", message: "how are you", date: DateTime.now()));
+   chats.add(new ChatModel(id: "2", email: userMod.Email, type: "sender", message: "how are you", date: DateTime.now()));
 
-   chats.add(new ChatModel(id: "3", user: userMod, type: "reciever", message: "plz help me", date: DateTime.now()));
+   chats.add(new ChatModel(id: "3", email: userMod.Email, type: "reciever", message: "plz help me", date: DateTime.now()));
 
   
-   chats.add(new ChatModel(id: "4", user: userMod, type: "sender", message: "thank you", date: DateTime.now()));
-   chats.add(new ChatModel(id: "5", user: userMod, type: "reciever", message: "fine thank you", date: DateTime.now()));
-
+   chats.add(new ChatModel(id: "4", email: userMod.Email, type: "sender", message: "thank you", date: DateTime.now()));
+   chats.add(new ChatModel(id: "5", email: userMod.Email, type: "reciever", message: "fine thank you", date: DateTime.now()));
+*/
    imageSliders.add(ImageSliderModel(id: "2", imageUrl: "https://cdn11.bigcommerce.com/s-sp9oc95xrw/images/stencil/1920w/carousel/533/c043__24279.png"));
    imageSliders.add(ImageSliderModel(id: "3", imageUrl: "https://cdn11.bigcommerce.com/s-sp9oc95xrw/images/stencil/1920w/carousel/536/C044.png"));
 

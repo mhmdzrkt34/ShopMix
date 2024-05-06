@@ -57,8 +57,8 @@ class payOnlineViewState extends State<PayOnlineView> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-   GetIt.instance.get<OrderModelView>().addOrder();
-   Navigator.pushNamed(context,"/orders" );
+   GetIt.instance.get<OrderModelView>().addOrder(context);
+  
    setState(() {
      
    });

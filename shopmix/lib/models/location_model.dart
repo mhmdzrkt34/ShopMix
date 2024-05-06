@@ -5,14 +5,21 @@ class LocationModel {
 
 
   late String id;
-  late String user_id;
-  late UserModel user;
+  late String email;
+ 
   late double langitude;
 
   late double latitude;
-  bool defaultLocation=false;
+  late bool defaultLocation;
 
-  LocationModel({required this.user,required this.langitude,required this.latitude,required this.user_id}){
-    id=Uuid().v4();
+  LocationModel({required this.id,required this.langitude,required this.latitude,required this.email,required this.defaultLocation});
+
+  static LocationModel FromJson(Map<String,dynamic> jsonData){
+
+
+    return LocationModel(id: jsonData["id"],email: jsonData["email"],langitude:jsonData["langitude"].toDouble(),latitude: jsonData["lattitude"].toDouble(),defaultLocation:jsonData["defaultLocation"] );
+
+
+    
   }
 }

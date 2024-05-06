@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:shopmix/components/appBarComponent/app_bar_component.dart';
@@ -162,7 +165,48 @@ Widget LocationComponent(LocationModel location){
               PopupMenuItem(
                 value: location.defaultLocation ? 'remove_default' : 'set_default',
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () async{
+                    User? user=FirebaseAuth.instance.currentUser;
+
+                    DocumentReference ref=await FirebaseFirestore.instance.collection("locations").doc(location.id);
+
+
+                    Map<String,dynamic> jsonData=(await ref.get()).data() as Map<String,dynamic>;
+
+                    if(jsonData["defaultLocation"]==true){
+               
+                      await ref.update({
+                        "defaultLocation":false
+                        
+                      });
+
+
+                    }
+                    else {
+                
+
+                     var locations=(await FirebaseFirestore.instance.collection("locations").where("email",isEqualTo: user!.email).where("defaultLocation",isEqualTo: true) .get()).docs;
+          
+
+
+                     for(var item in locations){
+
+                      await item.reference.update({
+                        "defaultLocation":false
+                      });
+                     }
+
+
+                                    await ref.update({
+                        "defaultLocation":true
+                        
+                      });
+
+
+
+                    }
+
+                    
                     GetIt.instance.get<LocationsModelView>().changeDefault(location.id);
                        Navigator.pop(context);
 
@@ -184,7 +228,12 @@ Widget LocationComponent(LocationModel location){
               PopupMenuItem(
                 value: 'remove_location',
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () async{
+
+                    
+
+
+                    await FirebaseFirestore.instance.collection("locations").doc(location.id).delete();
 
 
                     GetIt.instance.get<LocationsModelView>().removeLocation(location.id);

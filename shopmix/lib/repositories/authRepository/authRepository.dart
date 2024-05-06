@@ -17,7 +17,7 @@ class AuthRepository extends IAuthRepository {
 
      CollectionReference users=FirebaseFirestore.instance.collection("users");
      await users.add({
-      "Email":email,
+      "Email":email.toLowerCase(),
 "Name":name,
 "Password":password,
 

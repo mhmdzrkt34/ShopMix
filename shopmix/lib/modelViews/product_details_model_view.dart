@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,17 +28,35 @@ void changeImageIndex(int index){
 
 void getProduct(String productID) async{
   currentImageIndex=0;
-  FirebaseFirestore.instance.collection("products").doc(productID).snapshots().listen((snapshot) async{ 
 
+      Stream<QuerySnapshot> productImagesStream = FirebaseFirestore.instance
+    .collection('productImages')
+    .where("product_id", isEqualTo: productID)
+    .snapshots();
 
-    Map<String,dynamic> json=snapshot.data() as Map<String,dynamic>;
+         Stream<DocumentSnapshot> productsStream = FirebaseFirestore.instance.collection("products").doc(productID).snapshots();
 
-        json['id']=snapshot.id;
+            StreamGroup<dynamic> streamGroup = StreamGroup<dynamic>();
+
+            streamGroup.add(productsStream);
+            streamGroup.add(productImagesStream);
+
+            streamGroup.stream.listen((event) async{
+
+              var data=await FirebaseFirestore.instance.collection("products").doc(productID).get();
+                  Map<String,dynamic> json=data.data() as Map<String,dynamic>;
+
+                      json['id']=data.id;
         ProductModel productFetched=await ProductModel.FromJson(json);
         product=productFetched;
 
         notifyListeners();
-  });
+
+
+
+             });
+
+
 
 
 }

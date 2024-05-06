@@ -6,7 +6,7 @@ class ChatModel {
 
 late String id;
 
-late UserModel user;
+late String email;
 
 late String message;
 
@@ -14,7 +14,7 @@ late String type;
 late DateTime date;
 
 
-ChatModel({required this.id,required this.user,required this.type,required this.message,required this.date});
+ChatModel({required this.id,required this.email,required this.type,required this.message,required this.date});
 
 
 }

@@ -92,7 +92,8 @@ Widget LogoutItemContainer(BuildContext currentContext){
         try {
     await FirebaseAuth.instance.signOut();
     // Navigate to the login screen (replace '/login' with your login route if different)
-     Navigator.of(currentContext).pushReplacementNamed('/login');
+    
+     Navigator.pushReplacementNamed(currentContext, '/login');
   } catch (e) {
     // If there is an error during logout, handle it here
     // For example, show a snackbar with the error message

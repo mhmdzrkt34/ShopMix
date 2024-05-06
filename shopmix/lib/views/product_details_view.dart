@@ -1,14 +1,19 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopmix/components/appBarComponent/app_bar_component.dart';
 import 'package:shopmix/components/productComponent/product_component.dart';
 import 'package:shopmix/designs/colors_design.dart';
 import 'package:shopmix/modelViews/all_product_model_view.dart';
 import 'package:shopmix/modelViews/cart_model_view.dart';
+import 'package:shopmix/modelViews/favourites_model_view.dart';
 import 'package:shopmix/modelViews/home_body_model_view.dart';
 import 'package:shopmix/modelViews/home_model_view.dart';
 import 'package:shopmix/modelViews/product_details_model_view.dart';
@@ -83,11 +88,24 @@ Selector<ProductDetailsModelView,Tuple2<ProductModel?,int>> productSelector(){
         
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        Stack(children: [Container(
+        Stack(children: [Stack(children: [
+          Container(
           
           width: _deviceWidth*0.9,height: _deviceHeight*0.45,
           decoration: BoxDecoration(image: DecorationImage(image:  NetworkImage(value.item1!.images.length==0?"https://longislandsportsdome.com/wp-content/uploads/2019/01/182-1826643_coming-soon-png-clipart-coming-soon-png-transparent.png" :  value.item1!.images[GetIt.instance.get<ProductDetailsModelView>().currentImageIndex].ImageUrl),fit: BoxFit.contain)),
           ),
+          
+              Positioned(
+          top: _deviceHeight*0.45/2.2,
+          left: 0,
+          right: 0,
+          child: Container(
+            alignment: Alignment.center,
+            color: Colors.red,
+            child: Visibility(
+              visible: value.item1!.quantiy==0,
+              child: Text("OUT OF STOCK",style: TextStyle(backgroundColor: Colors.red, color: Colors.white,fontSize: 18,fontWeight: FontWeight.w900),)),
+          ))],),  
           Positioned(
             left: 5,
             top: 5,
@@ -122,9 +140,31 @@ Selector<ProductDetailsModelView,Tuple2<ProductModel?,int>> productSelector(){
               
             
             padding: EdgeInsets.all(10),
-            child: Container(
+            child: 
+            GestureDetector(
+              onTap: () async{
+                
+              User? user=await FirebaseAuth.instance.currentUser;
+              var data=(await FirebaseFirestore.instance.collection("favourites").where("user_email",isEqualTo: user!.email).where("product_id",isEqualTo: value.item1!.id).get()).docs;
+
+               if(data.isEmpty){
+
+                              await FirebaseFirestore.instance.collection("favourites").add({
+
+                "product_id":value.item1!.id,
+                "user_email":user!.email
+
+              });
+
+               }
+
+              GetIt.instance.get<FavouritesModelView>().addToFavourites(value.item1!);
+              },
+              child: 
+            
+            Container(
               
-              child: Icon(Icons.favorite_border,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[3]:GetIt.instance.get<ColorsDesign>().light[3]),),
+              child: Icon(Icons.favorite_border,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[3]:GetIt.instance.get<ColorsDesign>().light[3]),))
               
       
                
@@ -196,9 +236,59 @@ Selector<ProductDetailsModelView,Tuple2<ProductModel?,int>> productSelector(){
               Text((value.item1!.price-(value.item1!.price*value.item1!.salePercentage/100)).toString()+"\$",style: TextStyle(color: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[2]:GetIt.instance.get<ColorsDesign>().light[2],fontSize: _deviceWidth*0.05))],),
               
               GestureDetector(
-                onTap: (){
-                  GetIt.instance.get<HomeModelView>().addToCart();
-                  GetIt.instance.get<CartModelView>().addProductTocart(value.item1!);
+                onTap: () async{
+
+                if(value.item1!.quantiy!=0){
+
+                                            final SharedPreferences prefs = await SharedPreferences.getInstance();
+          var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: value.item1!.id).limit(1).get();
+
+          if(cartitem.docs.isNotEmpty){
+
+                      DocumentReference docRef = cartitem.docs.first.reference;
+              await docRef.update({
+                "quantity":FieldValue.increment(1)
+              });
+
+
+
+
+          }
+          else {
+                         await FirebaseFirestore.instance.collection("cartItems").add({
+      'cart_id': prefs.get("cart_id"),
+      'product_id': value.item1!.id,
+      'quantity': 1
+    });
+
+          }
+          var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.get("cart_id").toString()).get();
+
+          DocumentReference docref=cart.reference;
+
+          await docref.update({
+            "total":FieldValue.increment((value.item1!.price-(value.item1!.price*value.item1!.salePercentage/100)))
+
+          });
+
+                
+                GetIt.instance.get<HomeModelView>().addToCart();
+
+                GetIt.instance.get<CartModelView>().addProductTocart(value.item1!);
+                }
+
+                else {
+
+                     Fluttertoast.showToast(
+        msg: "This product cant be added to cart since it is out of stock",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+                  
+                }
+                
                 },
                 child: Container(child: Icon(Icons.add_shopping_cart,color: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1],),),
               )

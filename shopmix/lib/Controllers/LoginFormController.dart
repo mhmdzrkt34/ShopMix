@@ -1,11 +1,16 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopmix/modelViews/cart_model_view.dart';
 import 'package:shopmix/modelViews/favourites_model_view.dart';
+import 'package:shopmix/modelViews/home_model_view.dart';
+import 'package:shopmix/modelViews/locations_model_view.dart';
+import 'package:shopmix/modelViews/order_model_view.dart';
 import 'package:shopmix/repositories/authRepository/IAuthRepository.dart';
 import 'package:shopmix/repositories/authRepository/authRepository.dart';
 
@@ -47,11 +52,11 @@ class LoginFormController {
        
   
       User? u=await authRepository.signInWithEmailPassword(this.email, this.password);
-            clearData();
+            
           
-         if(u==null){
+         if(u==null || u.emailVerified==false){
            Fluttertoast.showToast(
-      msg: "Invalid Credentials",
+      msg: "Invalid Credentials or unverified email",
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,  
       timeInSecForIosWeb: 1,
@@ -63,8 +68,15 @@ class LoginFormController {
 
          }else{
 
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-           Navigator.pushNamed(context, "/home");
+          String cartId=(await FirebaseFirestore.instance.collection("carts").where("email",isEqualTo: u!.email).limit(1).get()).docs.first.reference.id;
+
+
+          prefs.setString("cart_id", cartId);
+
+
+           Navigator.pushReplacementNamed(context, "/home");
            sleep(Duration(seconds: 2));
         Fluttertoast.showToast(
       msg: "Welcom to the app enjoy",
@@ -75,9 +87,14 @@ class LoginFormController {
       textColor: Colors.white,
       fontSize: 16.0
   );
+  clearData();
 
   GetIt.instance.get<CartModelView>().fetchCarts();
    GetIt.instance.get<FavouritesModelView>().fetchFavourites();
+   GetIt.instance.get<OrderModelView>().fetchOrders();
+    GetIt.instance.get<HomeModelView>().getChats();
+
+     GetIt.instance.get<LocationsModelView>().fetchLocations();
   
       
        
