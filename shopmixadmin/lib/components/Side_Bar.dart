@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SideBar extends StatelessWidget {
   late BuildContext currentcontext;
@@ -10,102 +7,110 @@ class SideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentRoute = ModalRoute.of(currentcontext)?.settings.name;
+
     return Drawer(
       backgroundColor: Colors.blue,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           useracount(),
-          ListTile(
-            leading: const Icon(
-              Icons.dashboard,
-              color: Colors.white,
-            ),
-            title: const Text(
-              "Dashboard",
-              style: TextStyle(
+          if (currentRoute != '/')
+            ListTile(
+              leading: const Icon(
+                Icons.dashboard,
                 color: Colors.white,
               ),
+              title: const Text(
+                "Dashboard",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(currentcontext, "/");
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(currentcontext, "/");
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.format_align_right_outlined,
-              color: Colors.white,
-            ),
-            title: const Text(
-              "All Products",
-              style: TextStyle(
+          if (currentRoute != '/AllProducts')
+            ListTile(
+              leading: const Icon(
+                Icons.format_align_right_outlined,
                 color: Colors.white,
               ),
+              title: const Text(
+                "All Products",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(currentcontext, "/AllProducts");
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(currentcontext, "/AllProducts");
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.add_to_photos_rounded,
-              color: Colors.white,
-            ),
-            title: const Text(
-              "ADD Products",
-              style: TextStyle(
+          if (currentRoute != '/AddProduct')
+            ListTile(
+              leading: const Icon(
+                Icons.add_to_photos_rounded,
                 color: Colors.white,
               ),
+              title: const Text(
+                "ADD Products",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(currentcontext, "/AddProduct");
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(currentcontext, "/AddProduct");
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.list_alt,
-              color: Colors.white,
-            ),
-            title: const Text(
-              "All Categories",
-              style: TextStyle(
+          if (currentRoute != '/AddCategory')
+            ListTile(
+              leading: const Icon(
+                Icons.add_to_photos_rounded,
                 color: Colors.white,
               ),
+              title: const Text(
+                "ADD Category",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(currentcontext, "/AddCategory");
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(currentcontext, "/AllCategory");
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.add_to_photos_rounded,
-              color: Colors.white,
-            ),
-            title: const Text(
-              "ADD Category",
-              style: TextStyle(
+          if (currentRoute != '/Setting')
+            ListTile(
+              leading: const Icon(
+                Icons.settings,
                 color: Colors.white,
               ),
+              title: const Text(
+                "Setting",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(currentcontext, "/Setting");
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(currentcontext, "/AddCategory");
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.settings,
-              color: Colors.white,
-            ),
-            title: const Text(
-              "Setting",
-              style: TextStyle(
+          if (currentRoute != '/users')
+            ListTile(
+              leading: const Icon(
+                Icons.comment,
                 color: Colors.white,
               ),
+              title: const Text(
+                "Chat",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(currentcontext, "/users");
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(currentcontext, "/Setting");
-            },
-          ),
         ],
       ),
     );
@@ -125,6 +130,15 @@ class SideBar extends StatelessWidget {
             width: 90,
             height: 90,
             fit: BoxFit.cover,
+            errorBuilder: (context, url, error) => Container(
+              width: 160,
+              height: 120,
+              color: Colors.grey,
+              child: const Icon(
+                Icons.error,
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
       ),

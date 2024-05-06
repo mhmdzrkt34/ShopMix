@@ -8,14 +8,16 @@ class FormFieldComponent extends StatelessWidget {
   final Color? color;
   final Color? focuscolor;
   final bool ispassword;
+  final String? defaultValue;
 
   FormFieldComponent(this._validate, this._onSave, this._label, this.color,
       this.focuscolor, this.ispassword,
-      [this._icon]);
+      [this._icon, this.defaultValue]);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: defaultValue ?? null,
       obscureText: ispassword,
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
@@ -58,10 +60,7 @@ class FormFieldComponent extends StatelessWidget {
         focusColor: focuscolor,
       ),
       onSaved: (value) {
-     
-
-    
-        _onSave!(value);    
+        _onSave!(value);
       },
       validator: (value) {
         return _validate!(value);

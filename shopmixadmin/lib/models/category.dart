@@ -1,5 +1,5 @@
 class category {
-  String? id;
+  late String? id;
   final String name;
   final String? parentCategoryId;
 
@@ -9,12 +9,12 @@ class category {
     this.parentCategoryId,
   });
 
-  factory category.fromJson(Map<String, dynamic> json) {
+  factory category.fromJson(Map<String, dynamic> json, String idd) {
     category a = category(
+      id: idd,
       name: json['name'],
       parentCategoryId: json['parentCategoryId'],
     );
-    a.id = json['id'];
     return a;
   }
 

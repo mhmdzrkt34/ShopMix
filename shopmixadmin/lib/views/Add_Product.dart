@@ -26,14 +26,46 @@ class addProduct extends StatelessWidget {
 
   Future<void> _selectImages() async {
     try {
-      List<XFile> selectedImages = await picker.pickMultiImage();
+      final String? selectedOption = await showDialog<String>(
+        context: _context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text('Select Image'),
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context, 'Gallery'),
+                child: const Text('Gallery'),
+              ),
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context, 'Camera'),
+                child: const Text('Camera'),
+              ),
+            ],
+          );
+        },
+      );
 
-      if (selectedImages.isNotEmpty) {
-        GetIt.instance.get<ProductImageProvider>().addimages(selectedImages);
-        print("added");
+      if (selectedOption != null) {
+        List<XFile> selectedImages = [];
+
+        // Handle gallery or camera choice
+        if (selectedOption == 'Gallery') {
+          selectedImages = await picker.pickMultiImage();
+        } else if (selectedOption == 'Camera') {
+          final XFile? image =
+              await picker.pickImage(source: ImageSource.camera);
+          if (image != null) {
+            selectedImages.add(image);
+          }
+        }
+
+        if (selectedImages.isNotEmpty) {
+          GetIt.instance.get<ProductImageProvider>().addimages(selectedImages);
+          print("Images added");
+        }
       }
     } catch (e) {
-      print("exeption error: " + e.toString());
+      print("Exception error: " + e.toString());
     }
   }
 
@@ -127,6 +159,7 @@ class addProduct extends StatelessWidget {
       _producttitle(),
       _Description(),
       _price(),
+      _sale(),
       _quantity(),
       _category(),
       _productImage(),
@@ -156,6 +189,35 @@ class addProduct extends StatelessWidget {
     if (value == null || value.isEmpty) {
       return 'Price is required';
     }
+
+    return null;
+  }
+
+  Widget _sale() {
+    return Container(
+      width: _deviceWidth,
+      margin: EdgeInsets.only(
+          top: _deviceHight * 0.015,
+          left: _deviceWidth * 0.05,
+          right: _deviceWidth * 0.05),
+      child: Formfeildnumber(
+        _saleeValidate,
+        GetIt.instance<ADDProductFormController>().changesale,
+        "Sale",
+        const Color(0xFFFFFFFF),
+        const Color(0xFFFFFFFF),
+        const Icon(Icons.percent_outlined),
+      ),
+    );
+  }
+
+  String? _saleeValidate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'sale is required';
+    } else if (double.parse(value) > 100 || double.parse(value) < 0) {
+      return " sale must be persentage bettween 0 and 100";
+    }
+
     return null;
   }
 
@@ -280,8 +342,9 @@ class addProduct extends StatelessWidget {
           ),
           baseStyle: TextStyle(color: Colors.black),
         ),
-        onSaved: (value) {
-          print(value?.id);
+        onChanged: (value) {
+          print(value!.id);
+          GetIt.instance<ADDProductFormController>().changecategory(value!.id);
         },
         validator: (value) {
           if (value == null) {

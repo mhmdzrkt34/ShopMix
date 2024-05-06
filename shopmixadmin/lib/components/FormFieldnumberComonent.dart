@@ -6,6 +6,7 @@ class Formfeildnumber extends StatelessWidget {
   final Function(String?)? _onSave;
   final String? _label;
   final Icon? _icon;
+  final String? defaultValue;
 
   final Color? color;
   final Color? focuscolor;
@@ -16,12 +17,14 @@ class Formfeildnumber extends StatelessWidget {
     this._label,
     this.color,
     this.focuscolor,
-    this._icon,
-  );
+    this._icon, [
+    this.defaultValue,
+  ]);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: defaultValue ?? null,
       keyboardType: TextInputType.number,
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.digitsOnly

@@ -12,6 +12,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: appbarricons(),
       centerTitle: true,
       title: Text(_title),
+      
     );
   }
 

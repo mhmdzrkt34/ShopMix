@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ADDCategoryFormController {
   static GlobalKey<FormState> keyaddcategory = GlobalKey<FormState>();
@@ -22,11 +24,38 @@ class ADDCategoryFormController {
     }
   }
 
-  void onTap(BuildContext context) {
+  Future<void> onTap(BuildContext context) async {
     if (keyaddcategory.currentState!.validate()) {
       keyaddcategory.currentState!.save();
 
       print("title: " + this.Title + " parentcategoryid: " + parentcategoryid);
+
+      CollectionReference categories =
+          FirebaseFirestore.instance.collection("categories");
+
+      categories.add({
+        "name": this.Title,
+        "parent_id": this.parentcategoryid,
+      }).then((DocumentReference documentRef) {
+        Fluttertoast.showToast(
+            msg: "Category added successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        clearData();
+      }).catchError((error) {
+        Fluttertoast.showToast(
+            msg: "error while adding category",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      });
     }
   }
 }
