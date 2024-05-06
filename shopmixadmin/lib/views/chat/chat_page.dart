@@ -39,6 +39,7 @@ class chatpage extends StatelessWidget {
           children: [
             Expanded(
               child: SingleChildScrollView(
+                reverse: true,
                 child: Container(
                   margin: EdgeInsets.only(bottom: 100),
                   child: _messagesselctor(),
@@ -47,8 +48,7 @@ class chatpage extends StatelessWidget {
             ),
             MessageBar(
               onSend: (value) {
-                GetIt.instance<userchatprovider>()
-                    .SendMessage(value  );
+                GetIt.instance<userchatprovider>().SendMessage(value);
               },
               actions: [
                 InkWell(
