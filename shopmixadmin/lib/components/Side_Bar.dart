@@ -79,20 +79,20 @@ class SideBar extends StatelessWidget {
                 Navigator.pushReplacementNamed(currentcontext, "/AddCategory");
               },
             ),
-          if (currentRoute != '/Setting')
+          if (currentRoute != '/Orders')
             ListTile(
               leading: const Icon(
-                Icons.settings,
+                Icons.insert_chart_outlined_rounded,
                 color: Colors.white,
               ),
               title: const Text(
-                "Setting",
+                "Orders",
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
               onTap: () {
-                Navigator.pushReplacementNamed(currentcontext, "/Setting");
+                Navigator.pushReplacementNamed(currentcontext, "/Orders");
               },
             ),
           if (currentRoute != '/users')

@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopmixadmin/image_provider/product_image_provider.dart';
+import 'package:shopmixadmin/notifications/notifications.dart';
 
 class ADDProductFormController {
   GlobalKey<FormState> productFormKey = GlobalKey<FormState>();
@@ -92,6 +93,7 @@ class ADDProductFormController {
           "salePercent": sale,
           "title": Title,
         }).then((DocumentReference documentRef) {
+          GetIt.instance<notification>().sendaddproduct();
           Fluttertoast.showToast(
               msg: "Product added successfully",
               toastLength: Toast.LENGTH_SHORT,

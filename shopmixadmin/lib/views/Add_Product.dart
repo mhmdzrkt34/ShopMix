@@ -3,6 +3,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shopmixadmin/Controllers/ADDProductFormController.dart';
 import 'package:shopmixadmin/components/App_Bar.dart';
 import 'package:shopmixadmin/components/FormFielComonent.dart';
@@ -462,5 +463,12 @@ class addProduct extends StatelessWidget {
         _context,
       ),
     );
+  }
+
+  Future<void> requestPermissions() async {
+    await [
+      Permission.camera,
+      Permission.storage,
+    ].request();
   }
 }

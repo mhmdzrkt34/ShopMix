@@ -1,10 +1,9 @@
-import 'dart:ffi';
-
 class user {
   late String? id;
   final String name;
   final String? Email;
   final String? ProfileURL;
+  final String? PhoneNumber;
   final bool? Active;
 
   user({
@@ -13,6 +12,7 @@ class user {
     this.Email,
     this.ProfileURL,
     this.Active,
+    this.PhoneNumber,
   });
 
   factory user.fromJson(Map<String, dynamic> json, String idd) {
@@ -22,6 +22,7 @@ class user {
       Email: json['Email'],
       ProfileURL: json['ProfileURL'],
       Active: json['Active'],
+      PhoneNumber: json['PhoneNumber'],
     );
     return a;
   }
@@ -33,5 +34,16 @@ class user {
       'ProfileURL': ProfileURL,
       'Active': Active,
     };
+  }
+
+  String? extractCountryCode() {
+    if (PhoneNumber != null && PhoneNumber!.contains("IsoCode.")) {
+      int startIndex = PhoneNumber!.indexOf("IsoCode.") + "IsoCode.".length;
+
+      if (startIndex != -1 && startIndex + 2 <= PhoneNumber!.length) {
+        return PhoneNumber!.substring(startIndex, startIndex + 2);
+      }
+    }
+    return null;
   }
 }

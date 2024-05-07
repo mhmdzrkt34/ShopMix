@@ -25,7 +25,7 @@ class UserModelView extends ChangeNotifier {
         originalusers = List.from(users!);
         notifyListeners();
       }).catchError((error) {
-        print("Error fetching products: $error");
+        print("Error fetching users: $error");
       });
     });
   }
@@ -40,5 +40,22 @@ class UserModelView extends ChangeNotifier {
           .toList();
     }
     notifyListeners();
+  }
+
+  Map<String, int> getUserCountByCountry() {
+    Map<String, int> userCountByCountry = {};
+  
+    if (users != null) {
+      for (user currentUser in users!) {
+        String? countryCode = currentUser.extractCountryCode();
+        print("countryCode" + countryCode.toString());
+        if (countryCode != null) {
+          userCountByCountry[countryCode] =
+              (userCountByCountry[countryCode] ?? 0) + 1;
+        }
+      }
+    }
+
+    return userCountByCountry;
   }
 }

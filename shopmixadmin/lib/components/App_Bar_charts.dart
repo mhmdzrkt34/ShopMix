@@ -39,5 +39,5 @@ class AdminAppBarchart extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(_height * 0.1);
+  Size get preferredSize => Size.fromHeight(_height * 0.13);
 }
