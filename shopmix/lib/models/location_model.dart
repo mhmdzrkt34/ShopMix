@@ -17,7 +17,7 @@ class LocationModel {
   static LocationModel FromJson(Map<String,dynamic> jsonData){
 
 
-    return LocationModel(id: jsonData["id"],email: jsonData["email"],langitude:jsonData["langitude"].toDouble(),latitude: jsonData["lattitude"].toDouble(),defaultLocation:jsonData["defaultLocation"] );
+    return LocationModel(id: jsonData["id"],email: jsonData["email"],langitude:jsonData["langitude"].toDouble(),latitude: jsonData["latitude"].toDouble(),defaultLocation:jsonData["defaultLocation"] );
 
 
     

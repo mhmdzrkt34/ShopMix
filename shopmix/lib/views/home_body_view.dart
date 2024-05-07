@@ -263,7 +263,7 @@ return
        margin: EdgeInsets.only(left: 20,right: 20,top: 10),
       child: CarouselSlider(items: sliderImages.map((item) => Container(
         width: _deviceWidth,
-        height: _deviceHeight*0.5,
+        height: _deviceWidth*0.8,
         child:Image.network(item.imageUrl,fit: BoxFit.fill,) )).toList(), options: CarouselOptions(
       
         autoPlay: true,

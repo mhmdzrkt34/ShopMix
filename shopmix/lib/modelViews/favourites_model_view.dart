@@ -64,7 +64,7 @@ class FavouritesModelView extends ChangeNotifier{
         
         productJson['id']=(item.data() as Map<String,dynamic>)['product_id'];
         ProductModel product=await ProductModel.FromJson(productJson);
-        print(product.title+" "+product.images.length.toString());
+        //print(product.title+" "+product.images.length.toString());
         
 
         favouriteProducts.add(product);
@@ -72,14 +72,19 @@ class FavouritesModelView extends ChangeNotifier{
 
       }
       favouriteProducts=List.from(favouriteProducts);
-      print("length:"+favouriteProducts.length.toString());
-      print("images"+favouriteProducts[0].images.length.toString());
+      //print("length:"+favouriteProducts.length.toString());
+      //print("images"+favouriteProducts[0].images.length.toString());
 
    
       notifyListeners();
     }
 
 
+    
+  }
+
+  void clearFavourite(){
+    favouriteProducts=[];
     
   }
 }

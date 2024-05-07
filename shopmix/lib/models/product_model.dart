@@ -37,7 +37,7 @@ class ProductModel {
     double salePercentagee=json["salePercent"].toDouble();
     Timestamp timestamp = json['created_time'];
     DateTime createdTime = timestamp.toDate();
-      print("productIdd:"+idd);
+      //print("productIdd:"+idd);
 
     List<ProductImageModel> imagess=[];
 
@@ -67,7 +67,7 @@ class ProductModel {
        
         
   }).catchError((error) {
-    print("Error fetching product images: $error");
+    //print("Error fetching product images: $error");
   });
 
   return ProductModel(id: idd, isNew: issNew, salePercentage: salePercentagee, title: titlee, price: pricee, images: imagess, description: descriptionn, category_id: category_idd,quantiy: quantiyy);

@@ -9,6 +9,7 @@ import 'package:shopmix/modelViews/order_model_view.dart';
 import 'package:shopmix/modelViews/setting_model_view.dart';
 import 'package:shopmix/models/order_model.dart';
 import 'package:shopmix/providers/dark_mode_provider.dart';
+import 'package:shopmix/providers/map_page_provider.dart';
 
 class OrderView extends StatelessWidget {
 
@@ -88,13 +89,14 @@ Widget OrderWidget(List<OrderModel>? value){
 
        return Container(
     width: _deviceWidth,
-    margin: EdgeInsets.all(10),
+   
     child: Column(
       
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
     Container(
+      padding: EdgeInsets.only(left: 20),
       child: Text("Total number of orders:"+value!.length.toString(),style: TextStyle(fontSize: _deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1]),),),
 
     Container(
@@ -120,11 +122,44 @@ Widget OrderWidget(List<OrderModel>? value){
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
             
-              Container(child: Text("order Id:"+value[index].id,style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
-              Container(child: Text("number of items:"+value[index].quantity.toString(),style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
-              Container(child: Text("Total price:"+value[index].totalprice.toStringAsFixed(3)+"\$",style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
+              Container(
+                padding: EdgeInsets.only(left: 20),
+                child: Text("order Id:"+value[index].id,style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
+              Container(
+                 padding: EdgeInsets.only(left: 20),
+                child: Text("number of items:"+value[index].quantity.toString(),style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
+              Container(
+                
+                 padding: EdgeInsets.only(left: 20),
+                child: Text("Total price:"+value[index].totalprice.toStringAsFixed(3)+"\$",style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),
+
+                Container(
+                   padding: EdgeInsets.only(left: 20),
+                  child: Visibility(
+
+                  visible: value[index].delivered==true,
+                  child: Container(child:Text("Order Delivery is Completed:",style: TextStyle(fontSize:_deviceWidth*0.05,color:GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1] ),),),),
+                ),
+
+                GestureDetector(
+                  onTap: (){
+
+                    GetIt.instance.get<MapPageProvider>().start(value[index]);
+
+                    Navigator.pushNamed(context, "mapDistancePage");
+                  },
+                  child:              Container(
+                   padding: EdgeInsets.only(left: 20),
+                  child: Visibility(
+
+                  visible: value[index].delivered==false,
+                  child: Container(child:Text("Status:undelivered press the line to check delivery status",style: TextStyle(fontSize:_deviceWidth*0.04,color:Colors.red, decoration: TextDecoration.underline,decorationColor: Colors.red ),),),),
+                ),),
+    
             
-              Container(width: _deviceWidth,
+              Container(
+                 padding: EdgeInsets.only(left: 20),
+                width: _deviceWidth,
               
                 child:Container(
                   child: Row(

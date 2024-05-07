@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopmix/apis/firebase_api.dart';
 import 'package:shopmix/modelViews/cart_model_view.dart';
 import 'package:shopmix/modelViews/favourites_model_view.dart';
 import 'package:shopmix/modelViews/home_model_view.dart';
@@ -75,6 +76,8 @@ class LoginFormController {
 
           prefs.setString("cart_id", cartId);
 
+          await FirebaseApi().initNotification(u!.email!);
+
 
            Navigator.pushReplacementNamed(context, "/home");
            sleep(Duration(seconds: 2));
@@ -94,7 +97,7 @@ class LoginFormController {
    GetIt.instance.get<OrderModelView>().fetchOrders();
     GetIt.instance.get<HomeModelView>().getChats();
 
-     GetIt.instance.get<LocationsModelView>().fetchLocations();
+    GetIt.instance.get<LocationsModelView>().fetchLocations();
   
       
        

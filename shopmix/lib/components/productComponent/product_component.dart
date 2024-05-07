@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,7 +64,7 @@ class ProductComponent extends StatelessWidget {
             color: Colors.red,
             child: Visibility(
               visible: product.quantiy==0,
-              child: Text("OUT OF STOCK",style: TextStyle(backgroundColor: Colors.red, color: Colors.white,fontSize: 18,fontWeight: FontWeight.w900),)),
+              child: Text("OUT OF STOCK",style: TextStyle(backgroundColor: Colors.red, color: Colors.white,fontSize: deviceWidth*0.03,fontWeight: FontWeight.w900),)),
           ))
         ],) ,
         Positioned(
@@ -160,7 +161,8 @@ class ProductComponent extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Row(
+              children: [Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 
                 children: [Visibility(
               visible: product.salePercentage>0?true:false,

@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -207,6 +209,27 @@ class ResetPasswordView extends StatelessWidget {
     if (key.currentState!.validate()) {
       key.currentState!.save();
 
+      try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Password reset email sent to $email')),
+      );
+
+
+      Navigator.pushReplacementNamed(context, "/login");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No user found with this email')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+
+
+
     }
 
 
@@ -214,5 +237,6 @@ class ResetPasswordView extends StatelessWidget {
 
 
 
+}
 }
 }

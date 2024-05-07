@@ -19,7 +19,7 @@ class CategoriesModelView extends ChangeNotifier {
 
 
   void CategoryPress(String CategoryId){
-    print(CategoryId);
+    //print(CategoryId);
     for(var category in categories){
 
       if(category.Id==CategoryId){
@@ -150,9 +150,9 @@ Future<void> _listenToFirestore() async {
     categories=List.from(categoriesFetched);
     
     notifyListeners();
-    print("Updated categories: ${categories.length}");
+    //print("Updated categories: ${categories.length}");
   }, onError: (error) {
-    print("Error listening to Firestore: $error");
+    //print("Error listening to Firestore: $error");
   });
 }
 }

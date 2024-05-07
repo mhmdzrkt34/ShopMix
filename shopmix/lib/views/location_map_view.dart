@@ -47,7 +47,7 @@ class _LocationMapViewState extends State<LocationMapView> {
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(
           target: initialMarker.position, // Use dynamic location from initialMarker
-          zoom: 12.0,
+          zoom: 17.0,
         ),
         markers: markers, // Use the defined set of markers
       ),

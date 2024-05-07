@@ -8,6 +8,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shopmix/Seeding/seeding.dart';
+import 'package:shopmix/apis/Notification.dart';
 
 import 'package:shopmix/controllers/ChatController/scrlController.dart';
 import 'package:shopmix/controllers/formsControllers/login_form_controller.dart';
@@ -39,6 +40,7 @@ import 'package:shopmix/modelViews/shop_model_view.dart';
 import 'package:shopmix/modelViews/cart_model_view.dart';
 import 'package:shopmix/models/order_model.dart';
 import 'package:shopmix/providers/dark_mode_provider.dart';
+import 'package:shopmix/providers/map_page_provider.dart';
 import 'package:shopmix/repositories/authRepository/authRepository.dart';
 import 'package:shopmix/views/LocationSelectionScreen.dart';
 
@@ -52,6 +54,7 @@ import 'package:shopmix/views/currency_pay_view.dart';
 import 'package:shopmix/views/home_view.dart';
 import 'package:shopmix/views/locations_view.dart';
 import 'package:shopmix/views/login_view.dart';
+import 'package:shopmix/views/map_distance_page.dart';
 import 'package:shopmix/views/map_view.dart';
 import 'package:shopmix/views/order_method_view.dart';
 import 'package:shopmix/views/order_view.dart';
@@ -104,10 +107,11 @@ WidgetsFlutterBinding.ensureInitialized();
     "simpleTask",
     frequency: Duration(seconds: 350),
   );
-  
+ 
 
 
   GetIt.instance.registerSingleton<env>(env());
+  GetIt.instance.registerSingleton<notification>(notification());
 
   GetIt.instance.registerSingleton<Seeding>(Seeding());
 
@@ -153,7 +157,8 @@ GetIt.instance.registerSingleton<LoginZaraketFormController>(LoginZaraketFormCon
   GetIt.instance.registerSingleton<AddCreditCartModelView>(AddCreditCartModelView());
   GetIt.instance.registerSingleton<LocationsModelView>(LocationsModelView());
   GetIt.instance.registerSingleton<CurrencyPayModelView>(CurrencyPayModelView());
-  
+
+  GetIt.instance.registerSingleton<MapPageProvider>(MapPageProvider());
   
 
   GetIt.instance
@@ -169,6 +174,7 @@ GetIt.instance.registerSingleton<LoginZaraketFormController>(LoginZaraketFormCon
 
       
     if(auth.currentUser!=null && auth.currentUser!.emailVerified==true){
+      print(auth.currentUser!.email);
       GetIt.instance.get<CartModelView>().fetchCarts();
       GetIt.instance.get<FavouritesModelView>().fetchFavourites();
       GetIt.instance.get<OrderModelView>().fetchOrders();
@@ -216,6 +222,7 @@ class MyApp extends StatelessWidget {
         "/locationSelectionView":(context)=>LocationSelectionScreen(),
         "/currencypayview":(context)=>CurrencyPayView(),
         "/resetPasswordView":(context)=>ResetPasswordView(),
+        "mapDistancePage":(context)=>MapDistancePage()
        
        
       },

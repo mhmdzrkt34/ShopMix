@@ -52,197 +52,152 @@ class CartProductComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  SizedBox(width: deviceWidth,
-  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  child: Row(
   
   children: [Container(
+    
+    width: deviceWidth,
     padding:EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
-    margin: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+   
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
       Stack(children: [Container(
-        
-        width: deviceWidth*0.3,height: deviceHeight*0.3,
-        decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(product.images[0].ImageUrl),fit: BoxFit.contain)),
-        ),
-        Positioned(
-          left: 5,
-          top: 5,
-          child: Visibility(
-            visible: product.salePercentage==0?false:true,
-             child: Container(
+        width: deviceWidth,
+        child: Row(
+         
           
-          padding: EdgeInsets.only(top: 5,right: 10,bottom: 5,left: 10),
-          child: Text("-"+product.salePercentage.toString()+"%",style: TextStyle(fontSize: deviceWidth*0.03, color: salesfontcolor),),
-          decoration: BoxDecoration(
-            color: saleBackgroundColor,
-            borderRadius: BorderRadius.circular(15)),
-        ),)),
-    
-              Positioned(
-          right: 5,
-          top: 5,
-          child: Visibility(
-            visible: product.isNew?true:false,
-            child: Container(
-          
-          padding: EdgeInsets.only(top: 5,right: 10,bottom: 5,left: 10),
-          child: Text("NEW",style: TextStyle(fontSize: deviceWidth*0.03, color: newfontcolor),),
-          decoration: BoxDecoration(
-            color: newBackgroundColor,
-            borderRadius: BorderRadius.circular(15)),
-        ))),
-
-       
-    
-    
-        ],
-        
-        ),
-        GestureDetector(
-          onTap: (){
-
-            GetIt.instance<ProductDetailsModelView>().changeProduct(product);
-            Navigator.pushNamed(context, "/productDetail");
-          },
-          child: Container(child: Text(product.title,style: TextStyle(color: titleFontColor,fontWeight: FontWeight.bold,fontSize: deviceWidth*0.05),),),),
-    
-        SizedBox(
-          width: 170,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Row(
+          children: [
+            Container(
               
-              children: [Visibility(
-            visible: product.salePercentage>0?true:false,
-            child: Text(product.price.toStringAsFixed(2)+"\$",style: TextStyle(color: beforSaleFontColor,decoration: TextDecoration.lineThrough,fontSize: deviceWidth*0.03),)),
-          Text((product.price-(product.price*product.salePercentage/100)).toStringAsFixed(2)+"\$",style: TextStyle(color: withSaleFontColor,fontSize: deviceWidth*0.03))],),
-          
-
-          ],),
-        )
-    
-    
-    
-    ],),
-  ),
-  
-  Row(
-    crossAxisAlignment: CrossAxisAlignment.end,
-    children: [
-      
-
-      
-    Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Column(children: [Row(children: [      GestureDetector(
-          onTap: () async{
-
-                            final SharedPreferences prefs = await SharedPreferences.getInstance();
-          var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
-
-          if(GetIt.instance.get<AllProductModelView>().products!.firstWhere((element) => element.id==product.id).quantiy>quantity){
-
-                                  DocumentReference docRef = cartitem.docs.first.reference;
-              await docRef.update({
-                "quantity":FieldValue.increment(1)
-              });
-              print(prefs.getString("cart_id"));
-
-                                   var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.getString("cart_id")).get();
-
-          DocumentReference docref=cart.reference;
-
-          await docref.update({
-            "total":FieldValue.increment((product.price-(product.price*product.salePercentage/100)))
-
-          });
-
               
-
               
+              
+              width: deviceWidth*0.4,height: deviceWidth*0.3,
+              decoration: BoxDecoration( image: DecorationImage( image: NetworkImage(product.images[0].ImageUrl),fit: BoxFit.fill)),
+              ),
 
+                  Container(
+                    margin: EdgeInsets.only(left: deviceWidth*0.1),
+                    child: Row(
+                          
+                          children: [
+                            Column(children: [Row(children: [      GestureDetector(
+                              onTap: () async{
+                    
+                              final SharedPreferences prefs = await SharedPreferences.getInstance();
+                              var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
+                    
+                              if(GetIt.instance.get<AllProductModelView>().products!.firstWhere((element) => element.id==product.id).quantiy>quantity){
+                    
+                                    DocumentReference docRef = cartitem.docs.first.reference;
+                                  await docRef.update({
+                                    "quantity":FieldValue.increment(1)
+                                  });
+                                  print(prefs.getString("cart_id"));
+                    
+                                     var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.getString("cart_id")).get();
+                    
+                              DocumentReference docref=cart.reference;
+                    
+                              await docref.update({
+                                "total":FieldValue.increment((product.price-(product.price*product.salePercentage/100)))
+                    
+                              });
+                    
+                                  
+                    
+                                  
+                    
+                    
+                    
+                    
+                    
+                                GetIt.instance.get<CartModelView>().addProductQuantity(product);
+                    
+                              }
+                              else {
+                                   Fluttertoast.showToast(
+                            msg: "you cant add more there is no more in the stock",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                          );
+                              }
+                    
+                          
+                    
+                    
+                                
+                              },
+                              child: Visibility(visible: isremoveVisible,child: Container(child: Icon(size: deviceWidth*0.083, Icons.arrow_upward,color: UpAndDownColor,),),),),
+                          Container(
+                            alignment: Alignment.center,
+                            width: deviceWidth*0.07,
+                            child: /*TextFormField(
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              enabled: false,
+                              initialValue:quantity.toString(),
+                              decoration: InputDecoration(
+                                
+                                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black))),
+                              cursorColor: Colors.black,
+                              style: TextStyle(fontSize: deviceWidth*0.05,color: TextFormColor),
+                              
+                            )*/
+                            
+                            
+                            Text(quantity.toString(),style: TextStyle(fontSize: deviceWidth*0.05,color: TextFormColor)),),
+                           GestureDetector(
+                            onTap: () async{
+                              if(quantity>1){
+                              
+                              final SharedPreferences prefs = await SharedPreferences.getInstance();
+                              var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
+                    
+                          
+                    
+                        DocumentReference docRef = cartitem.docs.first.reference;
+                                  await docRef.update({
+                                    "quantity":FieldValue.increment(-1)
+                                  });
+                    
+                          var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.getString("cart_id")).get();
+                    
+                              DocumentReference docref=cart.reference;
+                    
+                              await docref.update({
+                                "total":FieldValue.increment(-(product.price-(product.price*product.salePercentage/100)))
+                    
+                              });
+                              }
+                    
+                    
+                    
+                              GetIt.instance<CartModelView>().subProductquantity(product);
+                            },
+                            child:  Visibility(visible: isremoveVisible, child: Container(
+                              
+                              child: Icon(size: deviceWidth*0.08, Icons.arrow_downward,color: UpAndDownColor,),)),)],),
+                              Container(
+                                width:deviceWidth*0.3 ,
+                                child: Expanded(
+                                  child:
+                                
+                                                              Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  child: Text("Total:"+(quantity*(product.price-(product.price*product.salePercentage/100))).toStringAsFixed(2)+"\$",style:TextStyle(color: UpAndDownColor,fontSize: deviceWidth*0.04),),)
+                                 ),
+                              )
 
-
-
-
-            GetIt.instance.get<CartModelView>().addProductQuantity(product);
-
-          }
-          else {
-               Fluttertoast.showToast(
-        msg: "you cant add more there is no more in the stock",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
-          }
-
-      
-
-
-            
-          },
-          child: Visibility(visible: isremoveVisible,child: Container(child: Icon(size: deviceWidth*0.08, Icons.arrow_upward,color: UpAndDownColor,),),),),
-      Container(
-        alignment: Alignment.center,
-        width: deviceWidth*0.05,
-        child: /*TextFormField(
-          textAlign: TextAlign.center,
-          keyboardType: TextInputType.number,
-          enabled: false,
-          initialValue:quantity.toString(),
-          decoration: InputDecoration(
-            
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black))),
-          cursorColor: Colors.black,
-          style: TextStyle(fontSize: deviceWidth*0.05,color: TextFormColor),
-          
-        )*/
-        
-        Text(quantity.toString(),style: TextStyle(fontSize: deviceWidth*0.05,color: TextFormColor)),),
-       GestureDetector(
-        onTap: () async{
-          if(quantity>1){
-          
-                            final SharedPreferences prefs = await SharedPreferences.getInstance();
-          var cartitem=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: prefs.get("cart_id")).where("product_id",isEqualTo: product.id).limit(1).get();
-
-      
-
-                      DocumentReference docRef = cartitem.docs.first.reference;
-              await docRef.update({
-                "quantity":FieldValue.increment(-1)
-              });
-
-                        var cart=await FirebaseFirestore.instance.collection("carts").doc(prefs.getString("cart_id")).get();
-
-          DocumentReference docref=cart.reference;
-
-          await docref.update({
-            "total":FieldValue.increment(-(product.price-(product.price*product.salePercentage/100)))
-
-          });
-          }
-
-
-
-          GetIt.instance<CartModelView>().subProductquantity(product);
-        },
-        child:  Visibility(visible: isremoveVisible, child: Container(
-          
-          child: Icon(size: deviceWidth*0.08, Icons.arrow_downward,color: UpAndDownColor,),)),)],),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Text("Total:"+(quantity*(product.price-(product.price*product.salePercentage/100))).toStringAsFixed(3)+"\$",style:TextStyle(color: UpAndDownColor),),)
-          ],)
-
-
-    ],),
+                              ],)
+                    
+                    
+                        ],),
+                  ),
    
 
     Visibility(
@@ -271,8 +226,75 @@ class CartProductComponent extends StatelessWidget {
           GetIt.instance.get<CartModelView>().removeProductFromCart(product,quantity);
           GetIt.instance.get<HomeModelView>().removeCountFromCart(quantity);
         },
-        child: Icon(Icons.delete,color: RemoveFromCartIconColor,),))
-  ],)
+        child: Container(
+          
+          child: Icon( Icons.delete,color: RemoveFromCartIconColor,)),))
+          ],
+        ),
+      ),
+        Positioned(
+          left: 5,
+          top: 5,
+          child: Visibility(
+            visible: product.salePercentage==0?false:true,
+             child: Container(
+          
+          padding: EdgeInsets.only(top: 5,right: 10,bottom: 5,left: 10),
+          child: Text("-"+product.salePercentage.toString()+"%",style: TextStyle(fontSize: deviceWidth*0.03, color: salesfontcolor),),
+          decoration: BoxDecoration(
+            color: saleBackgroundColor,
+            borderRadius: BorderRadius.circular(15)),
+        ),)),
+    
+              Positioned(
+          left: deviceWidth*0.2,
+          top: 5,
+          child: Visibility(
+            visible: product.isNew?true:false,
+            child: Container(
+          
+          padding: EdgeInsets.only(top: 5,right: 10,bottom: 5,left: 10),
+          child: Text("NEW",style: TextStyle(fontSize: deviceWidth*0.03, color: newfontcolor),),
+          decoration: BoxDecoration(
+            color: newBackgroundColor,
+            borderRadius: BorderRadius.circular(15)),
+        ))),
+
+       
+    
+    
+        ],
+        
+        ),
+        GestureDetector(
+          onTap: (){
+
+            GetIt.instance<ProductDetailsModelView>().changeProduct(product);
+            Navigator.pushNamed(context, "/productDetail");
+          },
+          child: Container(child: Text(product.title,style: TextStyle(color: titleFontColor,fontWeight: FontWeight.bold,fontSize: deviceWidth*0.05),),),),
+    
+        SizedBox(
+          width: deviceWidth*0.3,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [Row(
+              
+              children: [Visibility(
+            visible: product.salePercentage>0?true:false,
+            child: Text(product.price.toStringAsFixed(2)+"\$",style: TextStyle(color: beforSaleFontColor,decoration: TextDecoration.lineThrough,fontSize: deviceWidth*0.03),)),
+          Text((product.price-(product.price*product.salePercentage/100)).toStringAsFixed(2)+"\$",style: TextStyle(color: withSaleFontColor,fontSize: deviceWidth*0.03))],),
+          
+
+          ],),
+        )
+    
+    
+    
+    ],),
+  ),
+
   ],
   ),
   );

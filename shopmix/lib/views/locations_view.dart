@@ -106,7 +106,7 @@ Widget LocationsWidget(List<LocationModel> locations){
 
   if(locations.length==0){
 
-    return Center(child: Text("T here isNo locations"),);
+    return Center(child: Text("There is No locations",style: TextStyle(color:  GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1],),),);
   }
 
   return Column(children: locations.map<Widget>((e){
@@ -138,17 +138,20 @@ Widget LocationComponent(LocationModel location){
           },
           child:   Row(
             children: [
-              Icon(Icons.location_on),
+              Icon(Icons.location_on,color:  GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1]),
               SizedBox(width: 8.0), // Add spacing between icon and text
               Text(
                 '${location.latitude.toStringAsFixed(2)} ${location.langitude.toStringAsFixed(2)}',
                 style: TextStyle( // Add styling if desired
                   fontSize: 16.0,
+                  color:  GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1]
                 ),
               ),
             ],
           ),),
           PopupMenuButton<String>(
+            iconColor: GetIt.instance.get<ColorsDesign>().isDark?GetIt.instance.get<ColorsDesign>().dark[1]:GetIt.instance.get<ColorsDesign>().light[1],
+            
             onSelected: (value) {
               if (value == 'set_default') {
                 // Handle setting location as default
@@ -163,6 +166,7 @@ Widget LocationComponent(LocationModel location){
             },
             itemBuilder: (context) => [
               PopupMenuItem(
+                
                 value: location.defaultLocation ? 'remove_default' : 'set_default',
                 child: GestureDetector(
                   onTap: () async{

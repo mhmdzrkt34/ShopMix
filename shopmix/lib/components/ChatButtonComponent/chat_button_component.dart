@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:shopmix/apis/Notification.dart';
 import 'package:shopmix/components/chatMessageComponent/chat_message_component.dart';
 import 'package:shopmix/controllers/ChatController/scrlController.dart';
 import 'package:shopmix/designs/colors_design.dart';
@@ -145,6 +146,8 @@ Row(
         "message":mes,
         "type":"sender"
       });
+
+      GetIt.instance.get<notification>().sendchat(user_email: "admin@gmail.com");
 
 
       GetIt.instance.get<HomeModelView>().addChat();

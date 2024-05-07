@@ -5,6 +5,10 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:shopmix/components/appBarComponent/app_bar_component.dart';
 import 'package:shopmix/designs/colors_design.dart';
+import 'package:shopmix/modelViews/cart_model_view.dart';
+import 'package:shopmix/modelViews/favourites_model_view.dart';
+import 'package:shopmix/modelViews/locations_model_view.dart';
+import 'package:shopmix/modelViews/order_model_view.dart';
 import 'package:shopmix/modelViews/setting_model_view.dart';
 import 'package:shopmix/providers/dark_mode_provider.dart';
 
@@ -92,6 +96,11 @@ Widget LogoutItemContainer(BuildContext currentContext){
         try {
     await FirebaseAuth.instance.signOut();
     // Navigate to the login screen (replace '/login' with your login route if different)
+    GetIt.instance.get<CartModelView>().clearCartLogout();
+    GetIt.instance.get<FavouritesModelView>().clearFavourite();
+    GetIt.instance.get<OrderModelView>().clearOrders();
+    GetIt.instance.get<LocationsModelView>().clearLocations();
+    
     
      Navigator.pushReplacementNamed(currentContext, '/login');
   } catch (e) {

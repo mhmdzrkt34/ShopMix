@@ -116,7 +116,7 @@ class CartModelView extends ChangeNotifier {
       json["id"]=data.id;
      
       cart=await CartModel.fromJson(json);
-      print(cart!.id);
+      //print(cart!.id);
 
 
       QuerySnapshot cartItemsSnapshot=await FirebaseFirestore.instance.collection("cartItems").where("cart_id",isEqualTo: cart!.id).get();
@@ -154,5 +154,11 @@ class CartModelView extends ChangeNotifier {
 
 
 
+  }
+
+  void clearCartLogout(){
+
+    cartItems=[];
+    cart=null;
   }
 }

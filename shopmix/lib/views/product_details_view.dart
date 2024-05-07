@@ -90,13 +90,14 @@ Selector<ProductDetailsModelView,Tuple2<ProductModel?,int>> productSelector(){
         children: [
         Stack(children: [Stack(children: [
           Container(
+            
           
-          width: _deviceWidth*0.9,height: _deviceHeight*0.45,
-          decoration: BoxDecoration(image: DecorationImage(image:  NetworkImage(value.item1!.images.length==0?"https://longislandsportsdome.com/wp-content/uploads/2019/01/182-1826643_coming-soon-png-clipart-coming-soon-png-transparent.png" :  value.item1!.images[GetIt.instance.get<ProductDetailsModelView>().currentImageIndex].ImageUrl),fit: BoxFit.contain)),
+          width: _deviceWidth,height: _deviceWidth*0.6,
+          decoration: BoxDecoration( image: DecorationImage(image:  NetworkImage(value.item1!.images.length==0?"https://longislandsportsdome.com/wp-content/uploads/2019/01/182-1826643_coming-soon-png-clipart-coming-soon-png-transparent.png" :  value.item1!.images[GetIt.instance.get<ProductDetailsModelView>().currentImageIndex].ImageUrl),fit: BoxFit.fill)),
           ),
           
               Positioned(
-          top: _deviceHeight*0.45/2.2,
+          top: _deviceWidth*0.6/2.2,
           left: 0,
           right: 0,
           child: Container(

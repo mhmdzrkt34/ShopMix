@@ -112,20 +112,20 @@ class HomeModelView extends ChangeNotifier {
       List<ChatModel> chatts=[];
 
       var data=snapshots.docs;
-      print("firestoreLength:"+data.length.toString());
+      //print("firestoreLength:"+data.length.toString());
 
 
       for(var item in data){
         
 
         ChatModel ch=ChatModel(id: item.id, email: user!.email!, type: item['type'], message: item['message'], date: item['date'].toDate());
-        print(ch.date.toString()+""+ch.id+""+ch.email+""+ch.message+""+ch.type);
+        //print(ch.date.toString()+""+ch.id+""+ch.email+""+ch.message+""+ch.type);
       
         chatts.add(ch);
       }
       chatts.sort((a,b)=>a.date.compareTo(b.date));
       chats=List.from(chatts);
-      print("length "+chats!.length.toString());
+      //print("length "+chats!.length.toString());
       notifyListeners();
       if(ii<=0){
 

@@ -98,10 +98,12 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
           ),
           // Optional button alignment (consider adjusting position)
           Align(
-            alignment: Alignment.bottomRight,
+            alignment: Alignment.bottomLeft,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: FloatingActionButton(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
                 onPressed: () async{
                   if (selectedLocation != null) {
                      DocumentReference? docRef;
@@ -123,7 +125,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                         "defaultLocation":true,
                         "email":user!.email,
                         "langitude":selectedLocation!.longitude,
-                        "lattitude":selectedLocation!.latitude
+                        "latitude":selectedLocation!.latitude
 
                         
 
@@ -135,7 +137,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                         "defaultLocation":false,
                         "email":user!.email,
                         "langitude":selectedLocation!.longitude,
-                        "lattitude":selectedLocation!.latitude
+                        "latitude":selectedLocation!.latitude
 
                         
 

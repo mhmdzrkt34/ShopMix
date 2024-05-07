@@ -59,6 +59,16 @@ dependencies:
  
   qr_flutter: ^4.1.0
   coingecko_api: ^1.1.1+1
+  geolocator: ^11.0.0
+  flutter_polyline_points: ^2.0.0  
+  firebase_messaging: ^14.9.1
+
+  googleapis: ^13.1.0
+    
+
+  googleapis_auth: ^1.6.0
+  
+
 
 
 
@@ -72,6 +82,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/shopmixlogo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -84,8 +100,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/logo.png
-    - assets/images/google_logo.png
+    - assets/shopmix-8019f-f6a139b71f04.json
+    - assets/images/
 
   #   - images/a_dot_ham.jpeg
 

@@ -9,6 +9,8 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopmix/modelViews/all_product_model_view.dart';
 import 'package:shopmix/modelViews/cart_model_view.dart';
+import 'package:shopmix/modelViews/locations_model_view.dart';
+import 'package:shopmix/models/location_model.dart';
 import 'package:shopmix/models/order_items_model.dart';
 
 import 'package:shopmix/models/order_model.dart';
@@ -50,6 +52,23 @@ Future<void> getOrders() async {
 }
 
 Future<void> addOrder(BuildContext context) async{
+  LocationModel? userDefaultloc=GetIt.instance.get<LocationsModelView>().getDefaultLocation();
+  if(userDefaultloc==null){
+
+       Fluttertoast.showToast(
+        msg: "you must add location from setting and set at least one as default before proceeding",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+
+      return;
+
+    
+
+
+  }
   int error=0;
 
    GetIt.instance.get<CartModelView>().cartItems.forEach((element) {
@@ -91,7 +110,10 @@ Future<void> addOrder(BuildContext context) async{
       "totalPrice":GetIt.instance.get<CartModelView>().cart!.total,
       "quantity":quantity,
       "user_email":user!.email,
-      "date":DateTime.timestamp()
+      "date":DateTime.timestamp(),
+      "lattitude":userDefaultloc.latitude,
+      "langitude":userDefaultloc.langitude,
+      'delivered':false
 
       
      })).get();
@@ -100,7 +122,7 @@ Future<void> addOrder(BuildContext context) async{
 
      
 
-    OrderModel order=new OrderModel(id:  orderAddedJson['id'], email: orderAddedJson["user_email"], quantity: orderAddedJson["quantity"], totalprice: orderAddedJson["totalPrice"],date: orderAddedJson["date"].toDate());
+    OrderModel order=new OrderModel(id:  orderAddedJson['id'], email: orderAddedJson["user_email"], quantity: orderAddedJson["quantity"], totalprice: orderAddedJson["totalPrice"],date: orderAddedJson["date"].toDate(),lattitude:orderAddedJson['lattitude'],langitude: orderAddedJson['langitude'],delivered: orderAddedJson['delivered'] );
      
     
        GetIt.instance.get<CartModelView>().cartItems.forEach((element) async{
@@ -175,7 +197,9 @@ Future<void> fetchOrders() async{
   for(var item in ordersFirebase){
     Map<String,dynamic> jsonDataOrder=item.data() as Map<String,dynamic>;
 
-    OrderModel order=OrderModel(id: item.id, email: jsonDataOrder["user_email"], quantity: jsonDataOrder['quantity'], totalprice: jsonDataOrder['totalPrice'],date:jsonDataOrder["date"].toDate());
+    OrderModel order=OrderModel(id: item.id, email: jsonDataOrder["user_email"], quantity: jsonDataOrder['quantity'],
+     totalprice: jsonDataOrder['totalPrice'],date:jsonDataOrder["date"].toDate(),
+    langitude: jsonDataOrder["langitude"],lattitude: jsonDataOrder["lattitude"],delivered: jsonDataOrder['delivered']);
 
     var orderItemsFirebase=(await FirebaseFirestore.instance.collection("orderItems").where("order_id",isEqualTo: order.id).get()).docs;
 
@@ -183,7 +207,7 @@ Future<void> fetchOrders() async{
 
       Map<String,dynamic> jsonDataOrderItem=itemTwo.data() as Map<String,dynamic>;
 
-     print("productId:"+ jsonDataOrderItem["product_id"]);
+     //print("productId:"+ jsonDataOrderItem["product_id"]);
       Map<String,dynamic> ProductFirebase=(await FirebaseFirestore.instance.collection("products").doc(jsonDataOrderItem["product_id"]).get()).data() as Map<String,dynamic>;
 
       ProductFirebase['id']=jsonDataOrderItem["product_id"];
@@ -208,6 +232,11 @@ Future<void> fetchOrders() async{
 
 
 
+}
+
+void clearOrders(){
+
+  orders=[];
 }
 
 

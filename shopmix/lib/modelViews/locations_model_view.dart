@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:shopmix/models/location_model.dart';
 
 class LocationsModelView extends ChangeNotifier {
@@ -15,14 +16,14 @@ class LocationsModelView extends ChangeNotifier {
 
 
   void addLocation(LocationModel location){
-    print(location.langitude.toString()+" "+location.latitude.toString());
+    //print(location.langitude.toString()+" "+location.latitude.toString());
 
     if(locations.length==0){
       location.defaultLocation=true;
     }
     locations.add(location);
     locations=List.from(locations);
-    print(locations.length);
+    //print(locations.length);
     notifyListeners();
 
   }
@@ -40,7 +41,7 @@ class LocationsModelView extends ChangeNotifier {
     //locations.firstWhere((element) => element.id==locationId).defaultLocation=!locations.firstWhere((element) => element.id==locationId).defaultLocation;
 
     if(locationTochange.defaultLocation==true){
-      print('hey');
+      //print('hey');
       locations.firstWhere((element) => element.id==locationId).defaultLocation=false;
 
     }
@@ -93,6 +94,24 @@ class LocationsModelView extends ChangeNotifier {
 
     locations=List.from(locationsList);
     notifyListeners();
+
+
+  }
+
+  void clearLocations(){
+    locations=[];
+  }
+
+
+  LocationModel? getDefaultLocation(){
+
+    List<LocationModel> locationss=locations.where((element) => element.defaultLocation==true).toList();
+
+    if(locationss.isEmpty){
+      return null;
+    }
+    return locationss[0];
+   
 
 
   }

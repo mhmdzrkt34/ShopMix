@@ -97,10 +97,10 @@ class CurrencyPayModelView extends ChangeNotifier {
 
        
       } else {
-        print('Error fetching transaction data: ${response.statusCode}');
+        //print('Error fetching transaction data: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error: $e');
+      //print('Error: $e');
 
 
     }
