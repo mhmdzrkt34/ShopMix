@@ -12,24 +12,70 @@ class NetworkProvider extends ChangeNotifier {
       print(status.toString());
       switch (status) {
         case InternetStatus.connected:
-          _showSnackbar(" The internet is now connected");
+          _scaffoldKey.currentState?.removeCurrentSnackBar();
+          _scaffoldKey.currentState?.showSnackBar(
+            SnackBar(
+              duration: Duration(seconds: 5),
+              content: const Row(
+                children: [
+                  Icon(
+                    Icons.wifi,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 8.0),
+                  Text(
+                    "The internet is now Connected",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              ),
+              backgroundColor: Colors.green,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(16.0),
+              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            ),
+          );
           notifyListeners();
           break;
         case InternetStatus.disconnected:
-          _showSnackbar(" The internet is now disconnected");
+          _scaffoldKey.currentState?.showSnackBar(
+            SnackBar(
+              duration: Duration(days: 1),
+              content: const Row(
+                children: [
+                  Icon(
+                    Icons.wifi_off_sharp,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 8.0),
+                  Text(
+                    "The internet is now disconnected",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              ),
+              backgroundColor: Colors.red,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.all(16.0),
+              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+            ),
+          );
           notifyListeners();
           break;
       }
     });
-  }
-
-  void _showSnackbar(String message) {
-    _scaffoldKey.currentState?.showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: Duration(seconds: 5),
-      ),
-    );
   }
 
   GlobalKey<ScaffoldMessengerState> get scaffoldKey => _scaffoldKey;

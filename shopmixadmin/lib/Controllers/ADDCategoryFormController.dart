@@ -46,6 +46,7 @@ class ADDCategoryFormController {
             textColor: Colors.white,
             fontSize: 16.0);
         clearData();
+        Navigator.pushNamed(context, "/");
       }).catchError((error) {
         Fluttertoast.showToast(
             msg: "error while adding category",

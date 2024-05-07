@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_it/get_it.dart';
 import 'package:shopmixadmin/models/Message.dart';
 import 'package:shopmixadmin/models/User.dart';
+import 'package:shopmixadmin/notifications/notifications.dart';
 
 class userchatprovider extends ChangeNotifier {
   user? u;
@@ -39,25 +41,23 @@ class userchatprovider extends ChangeNotifier {
   }
 
   void SendMessage(String message) {
-    if(u!=null){
-
-   
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    firestore.collection("chats").add({
-      "date": DateTime.now(),
-      "email": u!.Email,
-      "message": message,
-      "type": "receiver",
-    });
-  } else{
-       Fluttertoast.showToast(
+    GetIt.instance<notification>().sendchat(user_email: u!.Email!);
+    if (u != null) {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      firestore.collection("chats").add({
+        "date": DateTime.now(),
+        "email": u!.Email,
+        "message": message,
+        "type": "receiver",
+      });
+    } else {
+      Fluttertoast.showToast(
         msg: "Error ",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
         textColor: Colors.white,
       );
-  }
-  
+    }
   }
 }
